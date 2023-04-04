@@ -16,7 +16,7 @@
         }
     },
     "bin": [
-        "bin/wpdocgen.php"
+        "bin/wp-doc-gen.php"
     ],
     "require": {
         "php": ">=8.0"

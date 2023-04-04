@@ -20,7 +20,7 @@ __Shortcodes__ support will come soon.
 Install it with composer
 
 ```
-composer require dudo1985/wp-doc-generator --dev
+composer require dudo1985/wpdocgen --dev
 ```
 
 ## Command Line Usage
