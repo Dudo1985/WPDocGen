@@ -1,0 +1,24 @@
+{
+    "name": "dudo1985/wpdocgen",
+    "description": "Documentation Generator for WordPress.",
+    "keywords": ["documentation", "hooks", "phpdoc", "wordpress", "markdown"],
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Dario Curvino",
+            "email": "dario.yasr@gmail.com",
+            "homepage": "https://dariocurvino.it"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Dudo1985\\WPDocGen\\": "src"
+        }
+    },
+    "bin": [
+        "bin/wpdocgen.php"
+    ],
+    "require": {
+        "php": ">=8.0"
+    }
+}
