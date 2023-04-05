@@ -25,7 +25,7 @@ composer require dudo1985/wpdocgen --dev
 
 ## Command Line Usage
 
-First paramater is the input directorty, second is the output file, e.g.
+First parameter is the input directory, second is the output file, e.g.
 
 #### `vendor/bin/wp-doc-gen . hooks.md`
 
@@ -100,29 +100,22 @@ will generate this code with table
 
 But, if you use the type *after* the argument, e.g.
 
+> 
 > ```
 > /**
-> * Use this action to add content inside shortcode creator
-> *
 > * @param $n_multi_set int
-> * @param $multi_set string the multiset name
 > */
-> do_action('yasr_add_content_on_tinypopupform', $n_multi_set, $multi_set);
 > ```
 >
 
 this will insert the type (*int* and *string* in this example) inside the "Description" column:
 
 
-> ### `do_action('yasr_add_content_on_tinypopupform')`
-> Source: [../yet-another-stars-rating/admin/editor//YasrEditorHooks.php, line 234](../yet-another-stars-rating/admin/editor//YasrEditorHooks.php:234)
->
-> *Use this action to add content inside shortcode creator*
+> 
 > ```
 > | Argument     | Type | Description              |
 > |--------------|------|--------------------------|
 > | $n_multi_set |      | int                      |
-> | $multi_set   |      | string the multiset name |
 > ```
 > 
  
