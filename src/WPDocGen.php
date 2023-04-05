@@ -75,10 +75,10 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             $this->checkParams($argv);
 
             // Use the explore_folder function to explore the folder and write the documentation
-            echo "Starting folder exploration: $folder_path\n";
+            echo 'Starting folder exploration: ' . ANSI_BG_DARK_GREY . $folder_path . ANSI_RESET ."\n";
             $this->exploreFolder($folder_path, true);
-            echo "Finished folder exploration.\n";
-            echo ANSI_GREEN. "$this->count" . ANSI_RESET . " hooks has been found\n";
+            echo "Finished folder exploration.\n\n";
+            echo ANSI_GREEN. $this->count . ANSI_RESET . " hooks has been found\n";
         }
 
         /**
@@ -93,7 +93,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          */
         function inputFolderExists($folder_path): void {
             if (!is_dir($folder_path)) {
-                echo "Error: the specified folder does not exist.\n";
+                echo ANSI_BOLD . ANSI_RED . 'Error:' . ANSI_RESET . " the input folder does not exist.\n";
                 exit(1);
             }
         }
@@ -150,7 +150,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             }
 
             if ($exclude_folder !== false) {
-                echo ANSI_BG_DARK_GREY . "Excluding folders: $exclude_folder" . ANSI_RESET ."\n";
+                echo 'Excluding folders: ' . ANSI_BG_DARK_GREY . $exclude_folder . ANSI_RESET . "\n";
             }
 
             return $exclude_folder;
@@ -191,14 +191,13 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         /**
          * Explore the folder for php files
          *
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
-         * @param             $folder_path
-         * @param bool|string $exclude_folder
-         * @param bool        $rewrite_file
+         * @param      $folder_path
+         * @param bool $rewrite_file
          *
          * @return void
+         * @since  1.0.0
+         *
+         * @author Dario Curvino <@dudo>
          */
         function exploreFolder($folder_path, bool $rewrite_file = false): void {
             if ($rewrite_file === true) {
