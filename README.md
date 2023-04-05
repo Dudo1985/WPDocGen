@@ -51,27 +51,22 @@ Only parse hooks starting with the specified prefixes.
 ## Notes
 To make the parser work fine, the comment must be a valid phpDocBlock, e.g.
 
->
 > ```
 > /**
 > * Use this action to add tabs inside shortcode creator for tinymce
 > */
 > do_action('yasr_add_tabs_on_tinypopupform');
 > ```
-> 
 
 will generate this code
 
->
 >### `do_action('yasr_add_tabs_on_tinypopupform')`
 >Source: [../yet-another-stars-rating/admin/editor/YasrEditorHooks.php, line 219](../yet-another-stars-rating/admin/editor//YasrEditorHooks.php:219)
 >
 >*Use this action to add tabs inside shortcode creator for tinymce*
->
 
 or, another example with tags
 
-> 
 > ``` 
 > /**
 > * Use this action to add content inside shortcode creator
@@ -110,19 +105,16 @@ But, if you use the type *after* the argument, e.g.
 
 this will insert the type (*int* and *string* in this example) inside the "Description" column:
 
-
 > 
 > ```
 > | Argument     | Type | Description              |
 > |--------------|------|--------------------------|
 > | $n_multi_set |      | int                      |
 > ```
-> 
- 
+>
 
 ## Alternatives
 Here is a list of alternatives that I found. However, none of these satisfied my needs
-
 
 - [WP Documentor](https://github.com/pronamic/wp-documentor/) by [Pronamic](https://github.com/pronamic)
 | This is the project that I used for a while, but I needed something to best fit my needs. The following list comes
@@ -137,7 +129,6 @@ from their readme
 - [WordPress Hooks Reference](https://github.com/johnbillion/wp-hooks) by [John Blackbourn](https://github.com/johnbillion) / [Human Made](https://github.com/humanmade)
 - [wp-hooks-generator](https://github.com/johnbillion/wp-hooks-generator) by [John Blackbourn](https://github.com/johnbillion) / [Human Made](https://github.com/humanmade)
 
-
 ## Links
 
 - https://developer.wordpress.org/plugins/hooks/
@@ -150,12 +141,3 @@ from their readme
 - https://developer.wordpress.org/reference/hooks/
 - https://www.phpdoc.org/
 - https://github.com/phpdocumentor/phpdocumentor
-- https://symfony.com/doc/current/console.html
-- https://symfony.com/doc/current/components/finder.html
-- https://developer.wordpress.org/cli/commands/i18n/make-pot/
-- https://developer.wordpress.org/cli/commands/i18n/make-json/
-- https://github.com/pronamic/deployer/blob/master/bin/pronamic-deployer
-- https://gitlab.com/pronamic/wp-updates/-/blob/master/index.php
-- https://github.com/wp-pay/core/issues/45
-- https://github.com/phpDocumentor/phpDocumentor/issues/2865
-- https://github.com/themeblvd/hookster
