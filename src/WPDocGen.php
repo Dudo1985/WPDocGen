@@ -45,7 +45,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             $folder_path     = $argv[1];
             $this->file_name = $argv[2];
 
-            $this->checkIfFolderExists($folder_path);
+            $this->inputFolderExists($folder_path);
 
             // If the output file doesn't exist, create it
             if (!file_exists($this->file_name)) {
@@ -80,7 +80,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          *
          * @return void
          */
-        function checkIfFolderExists($folder_path): void {
+        function inputFolderExists($folder_path): void {
             if (!is_dir($folder_path)) {
                 echo "Error: the specified folder does not exist.\n";
                 exit(1);
