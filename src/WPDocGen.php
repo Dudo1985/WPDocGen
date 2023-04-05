@@ -20,6 +20,13 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         public string $file_name;
 
         /**
+         * The folders to exclude
+         *
+         * @var bool|string
+         */
+        public bool|string $excluded_folders = false;
+
+        /**
          * The prefix to look for
          *
          * @var string
@@ -33,6 +40,14 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          */
         public int $count = 0;
 
+        /**
+         * Init the class
+         *
+         * @return void
+         * @since 1.0.0
+         * @author Dario Curvino <@dudo>
+         *
+         */
         public function init(): void {
             global $argc;
             global $argv;
@@ -57,15 +72,11 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 exit(1);
             }
 
-            //check if the script is called with -e param
-            $exclude_folder = $this->getExcludeFolders($argv);
-
-            //check if script is called with -p param
-            $this->prefix = $this->getPrefix($argv);
+            $this->checkParams($argv);
 
             // Use the explore_folder function to explore the folder and write the documentation
             echo "Starting folder exploration: $folder_path\n";
-            $this->exploreFolder($folder_path, $exclude_folder, true);
+            $this->exploreFolder($folder_path, true);
             echo "Finished folder exploration.\n";
             echo "$this->count hooks has been found\n";
         }
@@ -85,6 +96,23 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 echo "Error: the specified folder does not exist.\n";
                 exit(1);
             }
+        }
+
+        /**
+         * Manage params
+         *
+         * @param $argv
+         * @return void
+         * @author Dario Curvino <@dudo>
+         *
+         * @since 1.0.2
+         */
+        function checkParams($argv): void{
+            //check if the script is called with -e param
+            $this->excluded_folders = $this->getExcludeFolders($argv);
+
+            //check if script is called with -p param
+            $this->prefix           = $this->getPrefix($argv);
         }
 
 
@@ -172,7 +200,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          *
          * @return void
          */
-        function exploreFolder($folder_path, bool|string $exclude_folder = false, bool $rewrite_file = false): void {
+        function exploreFolder($folder_path, bool $rewrite_file = false): void {
             if ($rewrite_file === true) {
                 unlink($this->file_name);
             }
@@ -182,8 +210,8 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
 
             // Create an array of excluded folders
             $excluded_folders = [];
-            if ($exclude_folder !== false) {
-                $excluded_folders = explode(',', $exclude_folder);
+            if ($this->excluded_folders !== false) {
+                $excluded_folders = explode(',', $this->excluded_folders);
             }
 
             // Iterate through all the files in the folder
@@ -202,7 +230,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 // If the file is a folder, recursively explore the folder
                 if (is_dir($file_path)) {
                     //echo "Exploring folder: $file_path\n";
-                    $this->exploreFolder($file_path, $exclude_folder);
+                    $this->exploreFolder($file_path);
                 }
                 else {
                     //here means that is a php file, so analyze for it and eventually write the doc
