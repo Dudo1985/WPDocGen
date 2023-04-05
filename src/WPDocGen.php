@@ -215,30 +215,49 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
 
             // Iterate through all the files in the folder
             $files = scandir($folder_path);
+
+            $this->loopFolder($files, $excluded_folders, $folder_path, $file_open);
+
+            // Close the output file
+            fclose($file_open);
+        }
+
+        /**
+         * Loop the folder
+         *
+         * @param $files
+         * @param $excluded_folders
+         * @param $folder_path
+         * @param $file_open
+         * @return void
+         * @since 1.0.2
+         * @author Dario Curvino <@dudo>
+         *
+         */
+        function loopFolder($files, $excluded_folders, $folder_path, $file_open): void {
             foreach ($files as $file) {
-                // Ignore hidden folders
+                //Ignore hidden folders or files
                 if (str_starts_with($file, '.')) {
                     continue;
                 }
 
+                //ignore this dir (.) previous dir (..) and the user defined folder to exclude
                 if ($file === '.' || $file === '..' || in_array($file, $excluded_folders)) {
                     continue;
                 }
+
                 $file_path = $folder_path . '/' . $file;
 
-                // If the file is a folder, recursively explore the folder
+                // If the file is a folder, call again exploreFolder
                 if (is_dir($file_path)) {
                     //echo "Exploring folder: $file_path\n";
                     $this->exploreFolder($file_path);
                 }
                 else {
-                    //here means that is a php file, so analyze for it and eventually write the doc
+                    //here means that is a php file, so analyze it and eventually write the doc
                     $this->analyzePhpFile($file_path, $file_open);
                 }
             }
-
-            // Close the output file
-            fclose($file_open);
         }
 
         /**
@@ -331,11 +350,11 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
 
             //if the previous line is the end of the comment, get the text until /** (the begin of the comment) is reached
             if ($line === '*/') {
-                // If the previous line is the end of the comment, search for the beginning of the comment (/**) by moving backwards
                 while ($file->valid()) {
                     $file->seek($file->key() - 1);
                     $line = trim($file->current());
 
+                    //found the beginning of the comment
                     if ($line === '/**') {
                         break;
                     }
@@ -387,11 +406,12 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                     if ($comment['description'] === '*') {
                         $comment['description'] .= $comment_line . '*';
                     }
+                    //also add newlines otherwise
                     else {
-                        //append to comment with new lines
                         $comment['description'] .= "\n\n*" . $comment_line . '*';
                     }
                 }
+                //the line begin with a tag
                 else {
                     $comment_line_no_tag = $this->removeTagFromString($comment_line);
                     $comment['args'][]   = $comment_line_no_tag;
@@ -416,7 +436,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 if (isset($comment['description']) && $comment['description'] !== '') {
                     $description = $comment['description'];
                     fwrite($file_open, "\n");
-                    fwrite($file_open, "$description" . "\n\n");
+                    fwrite($file_open, $description . "\n\n");
                 }
 
                 if (isset($comment['args']) && $comment['args'] !== '') {
