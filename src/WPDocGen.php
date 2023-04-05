@@ -68,7 +68,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             }
 
             if (!is_writable($this->file_name)) {
-                echo "Error: the specified output file is not writable.\n";
+                echo ANSI_BOLD . ANSI_RED ." Error:". ANSI_RESET." the specified output file is not writable.\n";
                 exit(1);
             }
 
@@ -78,7 +78,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             echo "Starting folder exploration: $folder_path\n";
             $this->exploreFolder($folder_path, true);
             echo "Finished folder exploration.\n";
-            echo "$this->count hooks has been found\n";
+            echo ANSI_GREEN. "$this->count" . ANSI_RESET . " hooks has been found\n";
         }
 
         /**
@@ -150,7 +150,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             }
 
             if ($exclude_folder !== false) {
-                echo "Excluding folders: $exclude_folder\n";
+                echo ANSI_BG_DARK_GREY . "Excluding folders: $exclude_folder" . ANSI_RESET ."\n";
             }
 
             return $exclude_folder;
