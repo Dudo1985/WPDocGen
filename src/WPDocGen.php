@@ -105,25 +105,15 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
 
             $this->printer->messageWithDir('Starting Folder exploration: ', $folder_path);
 
-            $start_time = 0;
-            if($this->verbose === true) {
-                $start_time = microtime(true);
-            }
+            $start_time = microtime(true);
 
             // Use the explore_folder function to explore the folder and write the documentation
             $this->exploreFolder($folder_path, true);
 
             $this->printer->message('Finished folder exploration'. "\n");
 
-            if($this->verbose === true) {
-                $processed_php_file_text = ANSI_GREEN. $this->files_count_php .ANSI_RESET. ' php files have been processed';
-
-                $end_time   = microtime(true);
-                $total_time = $end_time - $start_time;
-
-                $this->printer->message($processed_php_file_text);
-                $this->printer->message('Execution time:  ' . $total_time . ' seconds');
-            }
+            //additional info if verbose is enabled
+            $this->printAdditionalInfo($start_time);
 
             $this->printer->message(ANSI_GREEN. $this->hook_count .ANSI_RESET. ' hooks has been found');
         }
@@ -736,6 +726,26 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             return false;
         }
 
+        /**
+         * Print additional info if verbose is enabled
+         *
+         * @param $start_time
+         * @return void
+         * @author Dario Curvino <@dudo>
+         *
+         * @since
+         */
+        public function printAdditionalInfo($start_time): void {
+            if($this->verbose === true) {
+                $processed_php_file_text = ANSI_GREEN. $this->files_count_php .ANSI_RESET. ' php files have been processed';
+
+                $end_time   = microtime(true);
+                $total_time = $end_time - $start_time;
+
+                $this->printer->message($processed_php_file_text);
+                $this->printer->message('Execution time:  ' . $total_time . ' seconds');
+            }
+        }
 
         /**
          * Remove multiple whitespaces from a string
