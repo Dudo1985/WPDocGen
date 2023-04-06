@@ -143,5 +143,4 @@ if (!class_exists('Dudo1985\WPDocGen\Printer')) {
             return ANSI_BG_DARK_GREY . ($string) . ANSI_RESET;
         }
     }
-
 }
