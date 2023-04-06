@@ -110,6 +110,9 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         function checkParams($argv): void{
             $this->helpMessage($argv);
 
+            //pint version if -v or --version is used
+            $this->printVersion($argv);
+
             //check if the script is called with -e param
             $this->excluded_folders = $this->getExcludeFolders($argv);
 
@@ -131,6 +134,23 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             if (in_array('--help', $argv) || in_array('-h', $argv)) {
                 echo 'todo help message\n';
 
+                exit(0);
+            }
+        }
+        /**
+         * print Version if -v or --version is used
+         *
+         * @author Dario Curvino <@dudo>
+         *
+         * @since 1.0.2
+         *
+         * @param $argv
+         *
+         * @return void
+         */
+        function printVersion($argv): void {
+            if (in_array('--version', $argv) || in_array('-v', $argv)) {
+                echo WPDocGenVersion . "\n";
                 exit(0);
             }
         }

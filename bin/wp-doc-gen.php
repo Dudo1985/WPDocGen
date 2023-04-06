@@ -8,6 +8,8 @@ if (version_compare(PHP_VERSION, '8.0.0') < 0) {
     exit(1);
 }
 
+const WPDocGenVersion = '1.0.2';
+
 //Reset to terminal default
 const ANSI_RESET = "\033[0m";
 
