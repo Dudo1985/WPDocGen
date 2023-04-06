@@ -13,6 +13,12 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
     class WPDocGen {
 
         /**
+         * String with script usage
+         */
+        public const USAGE_MESSAGE =
+            'Usage: php wp-doc-gen.php <src> <file_name.md> [-e <excluded_folder>] [-p <prefix>]';
+
+        /**
          * The file name (with path, eventually) to create
          *
          * @var string
@@ -40,7 +46,12 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          */
         public int $count = 0;
 
-        private $printer;
+        /**
+         * Printer instance
+         *
+         * @var Printer
+         */
+        private Printer $printer;
 
         /**
          * Init the class
@@ -57,7 +68,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             global $argv;
 
             if ($argc < 3 || $argc > 7) {
-                echo "Usage: php wp-doc-gen.php <folder_path> <file_name> [-e <excluded_folder>] [-p <prefix>]\n";
+                $this->printer->message(self::USAGE_MESSAGE . "\n" . "Try wp-doc-gen.php --help for more information.");
                 exit(1);
             }
 
@@ -78,11 +89,14 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
 
             $this->checkParams($argv);
 
+            $this->printer->messageWithDir('Starting Folder exploration: ', $folder_path);
+
             // Use the explore_folder function to explore the folder and write the documentation
-            echo 'Starting folder exploration: ' . ANSI_BG_DARK_GREY . $folder_path . ANSI_RESET ."\n";
             $this->exploreFolder($folder_path, true);
-            echo "Finished folder exploration.\n\n";
-            echo ANSI_GREEN. $this->count . ANSI_RESET . " hooks has been found\n";
+
+            $this->printer->message('Finished folder exploration'. "\n");
+
+            $this->printer->message(ANSI_GREEN. $this->count . ANSI_RESET . ' hooks has been found');
         }
 
         /**
@@ -97,7 +111,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          */
         function inputFolderExists($folder_path): void {
             if (!is_dir($folder_path)) {
-                echo ANSI_BOLD . ANSI_RED . 'Error:' . ANSI_RESET . " the input folder does not exist.\n";
+                $this->printer->error('the input folder does not exist.');
                 exit(1);
             }
         }
@@ -136,21 +150,18 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          */
         function helpMessage($argv): void {
             if (in_array('--help', $argv) || in_array('-h', $argv)) {
-                echo "\n";
-                echo ANSI_GREEN . 'Usage:' . ANSI_RESET ."\n";
-                echo "  php script.php [options]\n";
-                echo "\n";
-                echo ANSI_GREEN .  'Options:' . ANSI_RESET  . "\n";
-
+                $this->printer->newline();
+                $this->printer->messageGreen('Usage');
+                $this->printer->message(self::USAGE_MESSAGE);
+                $this->printer->newline();
+                $this->printer->messageGreen('Options');
                 $this->printer->helpOption('-h, --help', 'Display this help message');
                 $this->printer->helpOption('-V, --version','Display this application version');
                 $this->printer->helpOption('-e, --exclude','Exclude the specified folders, comma separated');
                 $this->printer->helpOption('-p, --prefix', 'Only parse hooks starting with the specified prefix.');
-
-                echo "\n";
-                echo "\033[32mDescription:\033[0m\n";
-                echo "  This is a sample PHP script that demonstrates how to add colors and headers to the help message.\n";
-                // termina lo script
+                $this->printer->newline();
+                $this->printer->messageGreen('Examples');
+                echo "  Foooooooooooooo\n";
 
                 exit(0);
             }
@@ -168,7 +179,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          */
         function printVersion($argv): void {
             if (in_array('--version', $argv) || in_array('-V', $argv)) {
-                echo WPDocGenVersion . "\n";
+                $this->printer->message(WPDocGenVersion);
                 exit(0);
             }
         }
@@ -207,7 +218,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             }
 
             if ($exclude_folder !== false) {
-                echo 'Excluding folders: ' . ANSI_BG_DARK_GREY . $exclude_folder . ANSI_RESET . "\n";
+                $this->printer->messageWithDir('Excluding folders: ', $exclude_folder);
             }
 
             return $exclude_folder;
