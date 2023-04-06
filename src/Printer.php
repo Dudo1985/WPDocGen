@@ -11,7 +11,29 @@ namespace Dudo1985\WPDocGen;
 if (!class_exists('Dudo1985\WPDocGen\Printer')) {
 
     class Printer {
-        public function HelpOption ($options, $description): void {
+
+        /**
+         * @param $message
+         * @return void
+         * @author Dario Curvino <@dudo>
+         *
+         * @since 1.0.2
+         */
+        public function error($message): void {
+            echo ANSI_BOLD . ANSI_RED .' Error:'. ANSI_RESET. ' ' .$message ."\n";
+        }
+
+        /**
+         * Echo options row
+         *
+         * @param $options
+         * @param $description
+         * @return void
+         * @since 1.0.2
+         * @author Dario Curvino <@dudo>
+         *
+         */
+        public function helpOption ($options, $description): void {
             $format_first_indent      = "%-2s";
             $format_options_width     = "%-28s";
             $format_description_text  = "%s\n";

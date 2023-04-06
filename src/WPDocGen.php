@@ -40,6 +40,8 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          */
         public int $count = 0;
 
+        private $printer;
+
         /**
          * Init the class
          *
@@ -49,6 +51,8 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          *
          */
         public function init(): void {
+            $this->printer = new Printer();
+
             global $argc;
             global $argv;
 
@@ -68,7 +72,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             }
 
             if (!is_writable($this->file_name)) {
-                echo ANSI_BOLD . ANSI_RED ." Error:". ANSI_RESET." the specified output file is not writable.\n";
+                $this->printer->error('the specified output file is not writable');
                 exit(1);
             }
 
@@ -132,17 +136,17 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          */
         function helpMessage($argv): void {
             if (in_array('--help', $argv) || in_array('-h', $argv)) {
-                $h = new Printer();
-
                 echo "\n";
                 echo ANSI_GREEN . 'Usage:' . ANSI_RESET ."\n";
                 echo "  php script.php [options]\n";
                 echo "\n";
                 echo ANSI_GREEN .  'Options:' . ANSI_RESET  . "\n";
-                $h->HelpOption('-h, --help', 'Display this help message');
-                $h->HelpOption('-V, --version','Display this application version');
-                $h->HelpOption('-e, --exclude','Exclude the specified folders, comma separated');
-                $h->HelpOption('-p, --prefix', 'Only parse hooks starting with the specified prefix.');
+
+                $this->printer->helpOption('-h, --help', 'Display this help message');
+                $this->printer->helpOption('-V, --version','Display this application version');
+                $this->printer->helpOption('-e, --exclude','Exclude the specified folders, comma separated');
+                $this->printer->helpOption('-p, --prefix', 'Only parse hooks starting with the specified prefix.');
+
                 echo "\n";
                 echo "\033[32mDescription:\033[0m\n";
                 echo "  This is a sample PHP script that demonstrates how to add colors and headers to the help message.\n";
