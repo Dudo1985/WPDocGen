@@ -12,6 +12,8 @@ if (!class_exists('Dudo1985\WPDocGen\Printer')) {
 
     class Printer {
 
+        const FORMAT_FIRST_INDENT = "%-2s";
+
         /**
          * Print newline char
          *
@@ -70,7 +72,7 @@ if (!class_exists('Dudo1985\WPDocGen\Printer')) {
          *
          */
         public function messageWithDir($message, $folder): void {
-           echo $message . ANSI_BG_DARK_GREY . $folder . ANSI_RESET ."\n";
+           echo $message . $this->returnStringWithBackground($folder) ."\n";
         }
 
         /**
@@ -97,17 +99,48 @@ if (!class_exists('Dudo1985\WPDocGen\Printer')) {
          *
          */
         public function helpOption ($options, $description): void {
-            $format_first_indent      = "%-2s";
             $format_options_width     = "%-28s";
             $format_description_text  = "%s\n";
 
-            $format = $format_first_indent . $format_options_width . $format_description_text;
+            $format = self::FORMAT_FIRST_INDENT . $format_options_width . $format_description_text;
 
             $options     = ANSI_LIGHT_YELLOW . $options . ANSI_RESET;
             $description = ANSI_BOLD . $description . ANSI_RESET;
 
             //print the string, first param is empty space
             echo sprintf($format, '', $options , $description);
+        }
+
+        /**
+         * Print two lines, the first in italic and the second with nackground
+         *
+         * @param $description
+         * @param $example
+         * @return void
+         * @since 1.0.2
+         * @author Dario Curvino <@dudo>
+         *
+         */
+        public function helpExamples ($description, $example): void {
+            $description = WPDocGen::removeMultipleWhitespaces($description);
+            $description = ANSI_ITALIC. $description. ANSI_RESET;
+            $example     = $this->returnStringWithBackground($example);
+
+            $format = self::FORMAT_FIRST_INDENT ."%s\n" . self::FORMAT_FIRST_INDENT . "%s\n";
+
+            echo sprintf($format, '', $description, '', $example);
+        }
+
+        /**
+         * Add ANSI_BG_DARK_GREY to a string
+         *
+         * @param $string
+         * @return string
+         * @author Dario Curvino <@dudo>
+         *
+         */
+        private function returnStringWithBackground ($string): string {
+            return ANSI_BG_DARK_GREY . ($string) . ANSI_RESET;
         }
     }
 

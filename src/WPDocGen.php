@@ -161,7 +161,12 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 $this->printer->helpOption('-p, --prefix', 'Only parse hooks starting with the specified prefix.');
                 $this->printer->newline();
                 $this->printer->messageGreen('Examples');
-                echo "  Foooooooooooooo\n";
+                $this->printer->helpExamples('To scan all the files in the current directory,
+                and save the result into the file hooks.md', 'wp-doc-gen . hooks.md');
+                $this->printer->newline(1);
+                $this->printer->helpExamples('To scan all the files in the current directory,
+                excluding the dirs vendor and node_modules, and catch only hooks with prefix \'yasr_\'',
+                    'wp-doc-gen . hooks.md --exclude vendor,node_modules --prefix yasr_');
 
                 exit(0);
             }
@@ -530,7 +535,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
 
             foreach ($args as $arg) {
                 //remove multiple consecutive whitespaces
-                $arg = $this->removeMultipleWhitespaces($arg);
+                $arg = self::removeMultipleWhitespaces($arg);
 
                 $argument_type = $this->findType($arg);
                 $argument_name = $this->findArgument($arg);
@@ -685,14 +690,14 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         /**
          * Remove multiple whitespaces from a string
          *
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
          * @param $string
          *
          * @return string
+         * @author Dario Curvino <@dudo>
+         * @since  1.0.0
+         *
          */
-        function removeMultipleWhitespaces($string): string {
+        static function removeMultipleWhitespaces($string): string{
             return preg_replace('/\s+/', ' ', $string);
         }
 

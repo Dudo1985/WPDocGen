@@ -27,6 +27,8 @@ const ANSI_BG_DARK_GREY = "\e[100m";
 //Bold
 const ANSI_BOLD = "\033[1m";
 
+const ANSI_ITALIC = "\033[3m";
+
 require 'vendor/autoload.php';
 
 $finder = new WPDocGen();
