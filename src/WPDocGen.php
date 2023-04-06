@@ -44,7 +44,14 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          *
          * @var int
          */
-        public int  $count = 0;
+        public int  $hook_count = 0;
+
+        /**
+         * The number of file processed
+         *
+         * @var int
+         */
+        public int  $files_count_php = 0;
 
         /**
          * by default, verbose is false
@@ -103,7 +110,12 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
 
             $this->printer->message('Finished folder exploration'. "\n");
 
-            $this->printer->message(ANSI_GREEN. $this->count . ANSI_RESET . ' hooks has been found');
+            if($this->verbose === true) {
+                $processed_php_file_text = ANSI_GREEN. $this->files_count_php .ANSI_RESET. ' php files have been processed';
+                $this->printer->message($processed_php_file_text);
+            }
+
+            $this->printer->message(ANSI_GREEN. $this->hook_count .ANSI_RESET. ' hooks has been found');
         }
 
         /**
@@ -145,6 +157,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             //check if script is called with -p param
             $this->prefix           = $this->getPrefix($argv);
 
+            //check if the script is called with -v or --verbose
             $this->verbose          = $this->verboseOutput($argv);
         }
 
@@ -387,6 +400,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                     $this->writeFile($file_open, $file_path, $matches, $file_content);
                 }
             }
+            $this->files_count_php++;
         }
 
         /**
@@ -425,7 +439,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
 
                 fwrite($file_open, '___');
 
-                $this->count++;
+                $this->hook_count++;
             }
             fwrite($file_open, "\n");
         }
