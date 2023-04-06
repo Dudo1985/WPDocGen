@@ -108,6 +108,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          * @since 1.0.2
          */
         function checkParams($argv): void{
+            //pint version if -v or --version is used
             $this->printVersion($argv);
 
             //check if the script is called with -e param
@@ -118,7 +119,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         }
 
         /**
-         * print Version if -vc
+         * print Version if -v or --version is used
          *
          * @author Dario Curvino <@dudo>
          *
