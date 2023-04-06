@@ -108,6 +108,8 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          * @since 1.0.2
          */
         function checkParams($argv): void{
+            $this->printVersion($argv);
+
             //check if the script is called with -e param
             $this->excluded_folders = $this->getExcludeFolders($argv);
 
@@ -115,6 +117,23 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             $this->prefix           = $this->getPrefix($argv);
         }
 
+        /**
+         * print Version if -vc
+         *
+         * @author Dario Curvino <@dudo>
+         *
+         * @since 1.0.2
+         *
+         * @param $argv
+         *
+         * @return void
+         */
+        function printVersion($argv): void {
+            if (in_array('--version', $argv) || in_array('-v', $argv)) {
+                echo WPDocGenVersion . "\n";
+                exit(0);
+            }
+        }
 
         /**
          * Check if script is executed with -e, and, if so, return a string of excluded dirs comma separated
