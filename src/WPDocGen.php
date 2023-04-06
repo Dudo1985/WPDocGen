@@ -110,7 +110,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         function checkParams($argv): void{
             $this->helpMessage($argv);
 
-            //pint version if -v or --version is used
+            //pint version if -V or --version is used
             $this->printVersion($argv);
 
             //check if the script is called with -e param
@@ -132,7 +132,21 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          */
         function helpMessage($argv): void {
             if (in_array('--help', $argv) || in_array('-h', $argv)) {
-                echo 'todo help message\n';
+                $h = new Printer();
+
+                echo "\n";
+                echo ANSI_GREEN . 'Usage:' . ANSI_RESET ."\n";
+                echo "  php script.php [options]\n";
+                echo "\n";
+                echo ANSI_GREEN .  'Options:' . ANSI_RESET  . "\n";
+                $h->HelpOption('-h, --help', 'Display this help message');
+                $h->HelpOption('-V, --version','Display this application version');
+                $h->HelpOption('-e, --exclude','Exclude the specified folders, comma separated');
+                $h->HelpOption('-p, --prefix', 'Only parse hooks starting with the specified prefix.');
+                echo "\n";
+                echo "\033[32mDescription:\033[0m\n";
+                echo "  This is a sample PHP script that demonstrates how to add colors and headers to the help message.\n";
+                // termina lo script
 
                 exit(0);
             }
@@ -149,7 +163,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          * @return void
          */
         function printVersion($argv): void {
-            if (in_array('--version', $argv) || in_array('-v', $argv)) {
+            if (in_array('--version', $argv) || in_array('-V', $argv)) {
                 echo WPDocGenVersion . "\n";
                 exit(0);
             }

@@ -11,13 +11,15 @@ if (version_compare(PHP_VERSION, '8.0.0') < 0) {
 const WPDocGenVersion = '1.0.2';
 
 //Reset to terminal default
-const ANSI_RESET = "\033[0m";
+const ANSI_RESET  = "\033[0m";
 
 //Red ansi color
-const ANSI_RED = "\033[31m";
+const ANSI_RED    = "\033[31m";
 
 //Green Ansi color
-const ANSI_GREEN = "\033[32m";
+const ANSI_GREEN  = "\033[32m";
+
+const ANSI_LIGHT_YELLOW = "\033[93m";
 
 //background dark grey
 const ANSI_BG_DARK_GREY = "\e[100m";
