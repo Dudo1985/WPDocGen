@@ -44,7 +44,14 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          *
          * @var int
          */
-        public int $count = 0;
+        public int  $count = 0;
+
+        /**
+         * by default, verbose is false
+         *
+         * @var bool
+         */
+        public bool $verbose = false;
 
         /**
          * Printer instance
@@ -67,7 +74,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             global $argc;
             global $argv;
 
-            if ($argc < 3 || $argc > 7) {
+            if ($argc < 3 || $argc > 8) {
                 $this->printer->message(self::USAGE_MESSAGE . "\n" . "Try wp-doc-gen.php --help for more information.");
                 exit(1);
             }
@@ -126,9 +133,10 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          * @since 1.0.2
          */
         function checkParams($argv): void{
+            //print help message if -h or --help is used
             $this->helpMessage($argv);
 
-            //pint version if -V or --version is used
+            //print version if -V or --version is used
             $this->printVersion($argv);
 
             //check if the script is called with -e param
@@ -136,6 +144,8 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
 
             //check if script is called with -p param
             $this->prefix           = $this->getPrefix($argv);
+
+            $this->verbose          = $this->verboseOutput($argv);
         }
 
         /**
@@ -262,6 +272,20 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         }
 
         /**
+         * @param  $argv
+         * @return bool
+         * @author Dario Curvino <@dudo>
+         *
+         * @since
+         */
+        function verboseOutput($argv): bool {
+            if (in_array('--verbose', $argv) || in_array('-v', $argv)) {
+                return true;
+            }
+            return false;
+        }
+
+        /**
          * Explore the folder for php files
          *
          * @param      $folder_path
@@ -323,7 +347,9 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
 
                 // If the file is a folder, call again exploreFolder
                 if (is_dir($file_path)) {
-                    //echo "Exploring folder: $file_path\n";
+                    if($this->verbose === true) {
+                        $this->printer->messageWithDir('Exploring folder ', $file_path);
+                    }
                     $this->exploreFolder($file_path);
                 }
                 else {
