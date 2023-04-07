@@ -2,7 +2,7 @@
     "name": "dudo1985/wpdocgen",
     "description": "Documentation Generator for WordPress.",
     "keywords": ["documentation", "hooks", "phpdoc", "wordpress", "markdown"],
-    "license": "GPL-2.0-or-later",
+    "license": "MIT",
     "authors": [
         {
             "name": "Dario Curvino",
