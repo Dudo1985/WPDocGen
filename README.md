@@ -1,8 +1,7 @@
 <h1 align="center">WP Doc Generator</h1>
 
-WordPress Doc Generator is a tool to automatically extract data about the __actions__ and __filters__ of your WordPress theme or plugin.
-
-__Shortcodes__ support will come soon.
+WordPress Doc Generator is a tool to automatically extract data about the __actions__, 
+__filters__ and __shortcodes__ of your WordPress theme or plugin.
 
 
 ## Table of contents
@@ -32,6 +31,14 @@ First parameter is the input directory, second is the output file, e.g.
 This will parse all the files in the current directory (.) and write a file called hooks.md
 
 ### Optional params
+
+#### `--shortcodes` or `-s`
+
+By default, WPDocGen search for hooks `apply_filters` and `do_actions`.
+However, if you use the `--shortcodes` or `-s` will search for `add_shortcode` function instead.
+
+#### `vendor/bin/wp-doc-gen . shortcodes.md`
+
 #### `--exclude` or `-e`
 
 Exclude the specified folders,  e.g.
@@ -44,7 +51,7 @@ There is no need to include the full paths of the excluded dirs, it is automatic
 ../my-plugin/node_modules
 
 #### `--prefix` or `-p`
-Only parse hooks starting with the specified prefixes.
+Only parse hooks or shortcodes starting with the specified prefixes.
 
 #### `vendor/bin/wp-doc-gen . hooks.md --exclude vendor node_modules --prefix prefix_1 prefix_2`
 

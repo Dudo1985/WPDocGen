@@ -1,5 +1,6 @@
 [2.0.0]
 ### Added
+- Added option -s or --shortcode to search for add_shortcode functions
 - Added option -h or --help to print a help message
 - Added option -v or --verbose to print detailed output
 - Added option -V or --version to print the version number

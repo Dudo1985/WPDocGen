@@ -499,7 +499,11 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 //write the hook and the link to file and line
                 //e.g. do_action('yasr_add_admin_scripts_begin')
                 //Source: ../yet-another-stars-rating/admin/classes/YasrAdmin.php, line 155
-                fwrite($file_open, "\n ### `$hook_type('$hook_name')` \n\n $link\n");
+                if($this->seek_shortcode === true) {
+                    fwrite($file_open, "\n ### Shortcode $hook_name \n\n $link\n");
+                } else {
+                    fwrite($file_open, "\n ### `$hook_type('$hook_name')` \n\n $link\n");
+                }
 
                 //write the comment if exists
                 $this->writeComment($comment, $file_open);
