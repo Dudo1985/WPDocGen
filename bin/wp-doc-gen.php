@@ -7,7 +7,7 @@ if (version_compare(PHP_VERSION, '8.0.0') < 0) {
     echo "ERROR: PHP 8 is required to run WPDocGen, version ". PHP_VERSION. " is installed\n";
     exit(1);
 }
-const WPDocGenVersion = '2.0.0';
+const WPDocGenVersion = '2.0.2';
 
 
 //Reset to terminal default
