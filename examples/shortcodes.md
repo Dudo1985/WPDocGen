@@ -3,19 +3,7 @@
 
  Source: [examples/shortcodes.php, line 48](examples/shortcodes.php:48)
 
-*## Yasr Overall Rating*
-
-*### What is?*
-
-*`[yasr_overall_rating]` shortcode is read only and is used by the reviewer.*
-
-*It comes in three sizes: "Small", "Medium", and "Large".*
-
-*The text displayed before or after the rating can be customized in the settings.*
-
-*The shortcode can be manually placed or automatically inserted using the auto insert feature*
-
-*### How to use it?*
+### How to use it?
 
 *To insert the rating in this widget, there are two ways:*
 

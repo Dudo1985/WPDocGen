@@ -63,7 +63,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
         function loopComment($file): array {
             $comment = [];
             //in markdown, this is for italics
-            $comment['description'] = '*';
+            $comment['description'] = '';
 
             while ($file->valid()) {
                 $comment_line = trim($file->current());
@@ -84,20 +84,28 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
                     $comment_line = trim(substr($comment_line, 1));
                 }
 
+                //if the string begins with a header, leave it and go to the next line
+                if(str_starts_with($comment_line, '#')) {
+                    $comment['description'] = $comment_line;
+                    $file->next();
+                    continue;
+                }
+
                 if (!$this->isTag($comment_line)) {
                     //if the comment is still empty, add just the text
-                    if ($comment['description'] === '*') {
-                        $comment['description'] .= $comment_line . '*';
+                    if ($comment['description'] === '') {
+                        $comment['description'] .= '*' . $comment_line . '*';
                     } //also add newlines otherwise
                     else {
                         $comment['description'] .= "\n\n*" . $comment_line . '*';
                     }
-                } //the line begin with a tag
+                }
+                //the line begins with a tag
                 else {
                     $comment_line_no_tag = $this->removeTagFromString($comment_line);
                     $comment['args'][] = $comment_line_no_tag;
                 }
-                //go to next line
+                //go to the next line
                 $file->next();
             }
             return $comment;
