@@ -35,7 +35,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          *
          * @var string
          */
-        public string $prefix = '';
+        public string $prefixes = '';
 
         /**
          * The number of the hooks found
@@ -179,7 +179,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             $this->excluded_folders = $this->getExcludeFolders($argv);
 
             //check if script is called with -p param
-            $this->prefix           = $this->getPrefix($argv);
+            $this->prefixes           = $this->getPrefixes($argv);
 
             //check if the script is called with -v or --verbose
             $this->verbose          = $this->verboseOutput($argv);
@@ -290,7 +290,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          *
          * @return string
          */
-        function getPrefix($argv): string {
+        function getPrefixes($argv): string {
             if (!in_array('--prefix', $argv) && !in_array('-p', $argv)) {
                 return '';
             }
@@ -303,18 +303,19 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             $prefix = '';
 
             if (isset($argv[$prefix_key_index + 1])) {
-                $prefixes = array_slice($argv, $prefix_key_index + 1);
+                $prefix_args = array_slice($argv, $prefix_key_index + 1);
 
-                foreach ($prefixes as $arg) {
+                foreach ($prefix_args as $arg) {
                     if (str_starts_with($arg, '-')) {
                         break;
                     }
                     if ($prefix === '') {
                         $prefix = $arg;
+                    } else {
+                        $prefix .= ',' . $arg;
                     }
                 }
             }
-
 
             return $prefix;
         }
@@ -451,20 +452,23 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          */
         function analyzePhpFile($file_path, $file_open): void {
             $extension = pathinfo($file_path, PATHINFO_EXTENSION);
-            if ($extension === 'php') {
-                // Open the file in read mode
-                $file_content = file_get_contents($file_path);
-
-                // Find occurrences of the apply_filters and do_action functions
-                $matches     = [];
-                $num_matches = preg_match_all(
-                    '/\b(apply_filters|do_action)\b\s*\(\s*[\'"](' . $this->prefix . '[^\'"]+)[\'"]/', $file_content,
-                    $matches, PREG_OFFSET_CAPTURE
-                );
-                if ($num_matches > 0) {
-                    $this->writeFile($file_open, $file_path, $matches, $file_content);
-                }
+            if ($extension !== 'php') {
+                return;
             }
+
+            // Open the file in read mode
+            $file_content = file_get_contents($file_path);
+
+            // Find occurrences of the apply_filters and do_action functions
+            $matches     = [];
+            $num_matches = preg_match_all(
+                '/\b(apply_filters|do_action)\b\s*\(\s*[\'"](' . $this->prefixes . '[^\'"]+)[\'"]/', $file_content,
+                $matches, PREG_OFFSET_CAPTURE
+            );
+            if ($num_matches > 0) {
+                $this->writeFile($file_open, $file_path, $matches, $file_content);
+            }
+
             $this->files_count_php++;
         }
 
