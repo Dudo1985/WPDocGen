@@ -217,6 +217,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             $this->printer->messageGreen('Options');
             $this->printer->helpOption('-h, --help', 'Display this help message');
             $this->printer->helpOption('-V, --version','Display this application version');
+            $this->printer->helpOption('-s, --shortcode','Search for add_shortcode instead of hooks');
             $this->printer->helpOption('-e, --exclude','Exclude the specified folders, comma separated');
             $this->printer->helpOption('-p, --prefix', 'Only parse hooks starting with the specified prefix.');
             $this->printer->newline();
