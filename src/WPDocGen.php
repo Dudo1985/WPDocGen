@@ -38,6 +38,12 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         public string $function_to_seek = 'apply_filters|do_action';
 
         /**
+         * True if shortcodes must be searched
+         *
+         * @var bool
+         */
+        public bool $seek_shortcode = false;
+        /**
          * The prefix to look for
          *
          * @var string
@@ -269,6 +275,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         function parseShortcode ($argv): void {
             if (in_array('--shortcode', $argv) || in_array('-s', $argv)) {
                 $this->function_to_seek = 'add_shortcode';
+                $this->seek_shortcode   = true;
             }
         }
 
@@ -522,7 +529,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 }
 
                 //do not write table of args for add_shortcode
-                if($this->function_to_seek !== 'add_shortcode') {
+                if($this->seek_shortcode !== true) {
                     if (isset($comment['args']) && $comment['args'] !== '') {
                         $args = $comment['args'];
 
