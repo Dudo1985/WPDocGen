@@ -206,8 +206,8 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 and save the result into the file hooks.md', 'wp-doc-gen . hooks.md');
                 $this->printer->newline();
                 $this->printer->helpExamples('To scan all the files in the current directory,
-                excluding the dirs vendor and node_modules, and catch only hooks with prefix \'yasr_\'',
-                    'wp-doc-gen . hooks.md --exclude vendor,node_modules --prefix yasr_');
+                excluding the dirs vendor and node_modules, and catch only hooks with prefixes \'prefix1_ prefix2_\'',
+                    'wp-doc-gen . hooks.md --exclude vendor node_modules --prefix prefix1_ prefix2_');
 
                 exit(0);
             }
