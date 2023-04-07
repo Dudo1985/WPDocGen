@@ -5,3 +5,4 @@
 - Added option -v or --verbose to print detailed output
 - Added option -V or --version to print the version number
 - The script now prints colors to improve readability.
+- Added files into examples dir
