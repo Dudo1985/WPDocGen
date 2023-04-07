@@ -85,13 +85,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             $this->parser  = new CommentParser();
             $this->printer = new Printer();
 
-            global $argc;
             global $argv;
-
-            if ($argc < 3 || $argc > 8) {
-                $this->printer->message(self::USAGE_MESSAGE . "\n" . "Try wp-doc-gen.php --help for more information.");
-                exit(1);
-            }
 
             $folder_path     = $argv[1];
             $this->file_name = $argv[2];
@@ -265,10 +259,15 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                     if (str_starts_with($arg, '-')) {
                         break;
                     }
+
+                    //add support for comma separated string
+                    //if a ',' is found at the end of the string, remove it
+                    $arg = rtrim($arg, ',');
+
                     if ($exclude_folder === false) {
                         $exclude_folder = $arg;
                     } else {
-                        $exclude_folder .= ',' . $arg;
+                        $exclude_folder .= ', ' . $arg;
                     }
                 }
             }
@@ -309,10 +308,15 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                     if (str_starts_with($arg, '-')) {
                         break;
                     }
+
+                    //add support for comma separated string
+                    //if a ',' is found at the end of the string, remove it
+                    $arg = rtrim($arg, ',');
+
                     if ($prefix === '') {
                         $prefix = $arg;
                     } else {
-                        $prefix .= ',' . $arg;
+                        $prefix .= ', ' . $arg;
                     }
                 }
             }
@@ -386,7 +390,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             // Create an array of excluded folders
             $excluded_folders = [];
             if ($this->excluded_folders !== false) {
-                $excluded_folders = explode(',', $this->excluded_folders);
+                $excluded_folders = explode(', ', $this->excluded_folders);
             }
 
             // Iterate through all the files in the folder
@@ -459,14 +463,18 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             // Open the file in read mode
             $file_content = file_get_contents($file_path);
 
-            // Find occurrences of the apply_filters and do_action functions
-            $matches     = [];
-            $num_matches = preg_match_all(
-                '/\b(apply_filters|do_action)\b\s*\(\s*[\'"](' . $this->prefixes . '[^\'"]+)[\'"]/', $file_content,
-                $matches, PREG_OFFSET_CAPTURE
-            );
-            if ($num_matches > 0) {
-                $this->writeFile($file_open, $file_path, $matches, $file_content);
+            $prefixes = explode(', ', $this->prefixes);
+
+            foreach ($prefixes as $prefix) {
+                // Find occurrences of the apply_filters and do_action functions
+                $matches = [];
+                $num_matches = preg_match_all(
+                    '/\b(apply_filters|do_action)\b\s*\(\s*[\'"](' . $prefix . '[^\'"]+)[\'"]/', $file_content,
+                    $matches, PREG_OFFSET_CAPTURE
+                );
+                if ($num_matches > 0) {
+                    $this->writeFile($file_open, $file_path, $matches, $file_content);
+                }
             }
 
             $this->files_count_php++;
