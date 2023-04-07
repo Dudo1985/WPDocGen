@@ -248,25 +248,27 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          * @return false|string
          */
         function getExcludeFolders($argv): bool|string {
+            if (!in_array('--exclude', $argv) && !in_array('-e', $argv)) {
+                return false;
+            }
+
+            $exclude_key_index = $this->returnArrayKeyIndex($argv, '--exclude', '-e');
+            if ($exclude_key_index === false) {
+                return false;
+            }
+
             $exclude_folder = false;
 
-            if (in_array('--exclude', $argv) || in_array('-e', $argv)) {
-                $exclude_key_index = $this->returnArrayKeyIndex($argv, '--exclude', '-e');
-                if ($exclude_key_index === false) {
-                    return false;
-                }
-
-                if (isset($argv[$exclude_key_index + 1])) {
-                    $exclude_args = array_slice($argv, $exclude_key_index + 1);
-                    foreach ($exclude_args as $arg) {
-                        if (str_starts_with($arg, '-')) {
-                            break;
-                        }
-                        if ($exclude_folder === false) {
-                            $exclude_folder = $arg;
-                        } else {
-                            $exclude_folder .= ',' . $arg;
-                        }
+            if (isset($argv[$exclude_key_index + 1])) {
+                $exclude_args = array_slice($argv, $exclude_key_index + 1);
+                foreach ($exclude_args as $arg) {
+                    if (str_starts_with($arg, '-')) {
+                        break;
+                    }
+                    if ($exclude_folder === false) {
+                        $exclude_folder = $arg;
+                    } else {
+                        $exclude_folder .= ',' . $arg;
                     }
                 }
             }
@@ -289,27 +291,31 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          * @return string
          */
         function getPrefix($argv): string {
+            if (!in_array('--prefix', $argv) && !in_array('-p', $argv)) {
+                return '';
+            }
+
+            $prefix_key_index = $this->returnArrayKeyIndex($argv, '--prefix', '-p');
+            if ($prefix_key_index === false) {
+                return '';
+            }
+
             $prefix = '';
-            if (in_array('--prefix', $argv) || in_array('-p', $argv)) {
 
-                $prefix_key_index = $this->returnArrayKeyIndex($argv, '--prefix', '-p');
-                if ($prefix_key_index === false) {
-                    return '';
-                }
+            if (isset($argv[$prefix_key_index + 1])) {
+                $prefixes = array_slice($argv, $prefix_key_index + 1);
 
-                if (isset($argv[$prefix_key_index + 1])) {
-                    $prefixes = array_slice($argv, $prefix_key_index + 1);
-
-                    foreach ($prefixes as $arg) {
-                        if (str_starts_with($arg, '-')) {
-                            break;
-                        }
-                        if ($prefix === '') {
-                            $prefix = $arg;
-                        }
+                foreach ($prefixes as $arg) {
+                    if (str_starts_with($arg, '-')) {
+                        break;
+                    }
+                    if ($prefix === '') {
+                        $prefix = $arg;
                     }
                 }
             }
+
+
             return $prefix;
         }
 
