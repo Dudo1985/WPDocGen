@@ -20,5 +20,11 @@
     ],
     "require": {
         "php": ">=8.0"
+    },
+    "scripts": {
+        "test": [
+            "php bin/wp-doc-gen.php examples examples/hooks.md --prefix yasr_",
+            "php bin/wp-doc-gen.php examples examples/shortcodes.md --prefix yasr_ --shortcode"
+        ]
     }
 }
