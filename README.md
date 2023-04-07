@@ -34,11 +34,11 @@ This will parse all the files in the current directory (.) and write a file call
 ### Optional params
 #### `--exclude` or `-e`
 
-Exclude the specified folders, comma separated, e.g.
-#### `vendor/bin/wp-doc-gen . hooks.md --exclude vendor,node_modules`
+Exclude the specified folders,  e.g.
+#### `vendor/bin/wp-doc-gen . hooks.md --exclude vendor node_modules`
 
 Another example, if you're launching the script from another dir:
-#### `vendor bin/wp-doc-gen.php ../my-plugin/ docs/hooks.md --exclude vendor,node_modules  --prefix yasr`
+#### `vendor bin/wp-doc-gen.php ../my-plugin/ docs/hooks.md --exclude vendor node_modules  --prefix yasr`
 
 There is no need to include the full paths of the excluded dirs, it is automatically ../my-plugin/vendor and 
 ../my-plugin/node_modules
@@ -46,7 +46,7 @@ There is no need to include the full paths of the excluded dirs, it is automatic
 #### `--prefix` or `-p`
 Only parse hooks starting with the specified prefixes.
 
-#### `vendor/bin/wp-doc-gen . hooks.md --exclude vendor,node_modules --prefix=yasr`
+#### `vendor/bin/wp-doc-gen . hooks.md --exclude vendor node_modules --prefix prefix_1 prefix_2`
 
 ## Notes
 To make the parser work fine, the comment must be a valid phpDocBlock, e.g.
