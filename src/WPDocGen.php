@@ -249,21 +249,23 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          */
         function getExcludeFolders($argv): bool|string {
             $exclude_folder = false;
-            $exclude_keys = ['-e', '--exclude'];
-            foreach ($exclude_keys as $exclude_key) {
-                if (in_array($exclude_key, $argv, true)) {
-                    $exclude_key_index = array_search($exclude_key, $argv, true);
-                    if (isset($argv[$exclude_key_index + 1])) {
-                        $exclude_args = array_slice($argv, $exclude_key_index + 1);
-                        foreach ($exclude_args as $arg) {
-                            if (str_starts_with($arg, '-')) {
-                                break;
-                            }
-                            if ($exclude_folder === false) {
-                                $exclude_folder = $arg;
-                            } else {
-                                $exclude_folder .= ',' . $arg;
-                            }
+
+            if (in_array('--exclude', $argv) || in_array('-e', $argv)) {
+                $exclude_key_index = $this->returnArrayKeyIndex($argv, '--exclude', '-e');
+                if ($exclude_key_index === false) {
+                    return false;
+                }
+
+                if (isset($argv[$exclude_key_index + 1])) {
+                    $exclude_args = array_slice($argv, $exclude_key_index + 1);
+                    foreach ($exclude_args as $arg) {
+                        if (str_starts_with($arg, '-')) {
+                            break;
+                        }
+                        if ($exclude_folder === false) {
+                            $exclude_folder = $arg;
+                        } else {
+                            $exclude_folder .= ',' . $arg;
                         }
                     }
                 }
@@ -288,24 +290,57 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          */
         function getPrefix($argv): string {
             $prefix = '';
-            $prefix_keys = ['-p', '--prefix'];
-            foreach ($prefix_keys as $prefix_key) {
-                if (in_array($prefix_key, $argv, true)) {
-                    $prefix_key_index = array_search($prefix_key, $argv, true);
-                    if (isset($argv[$prefix_key_index + 1])) {
-                        $exclude_args = array_slice($argv, $prefix_key_index + 1);
-                        foreach ($exclude_args as $arg) {
-                            if (str_starts_with($arg, '-')) {
-                                break;
-                            }
-                            if ($prefix === '') {
-                                $prefix = $arg;
-                            }
+            if (in_array('--prefix', $argv) || in_array('-p', $argv)) {
+
+                $prefix_key_index = $this->returnArrayKeyIndex($argv, '--prefix', '-p');
+                if ($prefix_key_index === false) {
+                    return '';
+                }
+
+                if (isset($argv[$prefix_key_index + 1])) {
+                    $prefixes = array_slice($argv, $prefix_key_index + 1);
+
+                    foreach ($prefixes as $arg) {
+                        if (str_starts_with($arg, '-')) {
+                            break;
+                        }
+                        if ($prefix === '') {
+                            $prefix = $arg;
                         }
                     }
                 }
             }
             return $prefix;
+        }
+
+        /**
+         * Search for the first occurrence of either $key1 or $key2 in the given $argv array.
+         *
+         * @param array $argv  An array of arguments to search through.
+         * @param string $key1 The first key to search for in the $argv array.
+         * @param string $key2 The second key to search for in the $argv array if $key1 is not found.
+         *
+         * @return int|bool Returns the index of the key if found, or false if neither key is found.
+         *
+         * @author Dario Curvino <@dudo>
+         *
+         * @since 1.0.2
+         */
+        function returnArrayKeyIndex(array $argv, string $key1, string $key2): bool|int {
+            //search the first key into $argv
+            $key_index = array_search($key1, $argv);
+
+            //if not found, try to search the second key
+            if ($key_index === false) {
+                $key_index = array_search($key2, $argv);
+            }
+
+            //if found and is int, return
+            if (is_int($key_index)) {
+                return $key_index;
+            }
+
+            return false;
         }
 
         /**
