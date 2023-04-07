@@ -146,5 +146,6 @@ from their readme
 - https://developer.wordpress.org/reference/functions/apply_filters/
 - https://developer.wordpress.org/reference/functions/add_filter/
 - https://developer.wordpress.org/reference/hooks/
+- https://developer.wordpress.org/reference/functions/add_shortcode/
 - https://www.phpdoc.org/
 - https://github.com/phpdocumentor/phpdocumentor
