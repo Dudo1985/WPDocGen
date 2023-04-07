@@ -1,7 +1,6 @@
 <?php
 namespace Dudo1985\WPDocGen;
 
-
 /**
  * @author Dario Curvino <@dudo>
  * @since  1.0.0
@@ -59,6 +58,11 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          */
         public bool $verbose = false;
 
+        /**
+         * Parser instance
+         *
+         * @var CommentParser
+         */
         private CommentParser $parser;
 
         /**
