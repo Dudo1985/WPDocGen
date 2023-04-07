@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @since  1.0.2
+ * @since  2.0.0
  * @author Dario Curvino <@dudo>
  */
 

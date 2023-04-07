@@ -31,6 +31,13 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         public bool|string $excluded_folders = false;
 
         /**
+         * By default, search for hooks
+         *
+         * @var string
+         */
+        public string $function_to_seek = 'apply_filters|do_action';
+
+        /**
          * The prefix to look for
          *
          * @var string
@@ -132,7 +139,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          * it will be created.
          *
          * @return void
-         * @since  1.0.2
+         * @since  2.0.0
          * @author Dario Curvino <@dudo>
          */
         function checkOutputFile(): void {
@@ -160,7 +167,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          * @return void
          * @author Dario Curvino <@dudo>
          *
-         * @since 1.0.2
+         * @since 2.0.0
          */
         function checkParams($argv): void{
             //print help message if -h or --help is used
@@ -172,7 +179,10 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             //check if the script is called with -v or --verbose
             $this->verbose          = $this->verboseOutput($argv);
 
-            //check if the script is called with -e param
+            //check if --shortcode or -s was used
+            $this->parseShortcode($argv);
+
+            //check if the script is called with --exclude, or -e
             $this->excluded_folders = $this->getOptions($argv, '--exclude', '-e');
 
             //check if script is called with --prefix -p param
@@ -220,7 +230,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          *
          * @author Dario Curvino <@dudo>
          *
-         * @since 1.0.2
+         * @since 2.0.0
          *
          * @param $argv
          *
@@ -230,6 +240,35 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             if (in_array('--version', $argv) || in_array('-V', $argv)) {
                 $this->printer->message(WPDocGenVersion);
                 exit(0);
+            }
+        }
+
+        /**
+         * @param  $argv
+         * @return bool
+         * @author Dario Curvino <@dudo>
+         *
+         * @since
+         */
+        function verboseOutput($argv): bool {
+            if (in_array('--verbose', $argv) || in_array('-v', $argv)) {
+                return true;
+            }
+            return false;
+        }
+
+        /**
+         * change $this->function_to_seek is --shortcode is enabled
+         *
+         * @param $argv
+         * @return void
+         * @author Dario Curvino <@dudo>
+         *
+         * @since 2.0.0
+         */
+        function parseShortcode ($argv): void {
+            if (in_array('--shortcode', $argv) || in_array('-s', $argv)) {
+                $this->function_to_seek = 'add_shortcode';
             }
         }
 
@@ -293,7 +332,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          *
          * @author Dario Curvino <@dudo>
          *
-         * @since 1.0.2
+         * @since 2.0.0
          */
         function returnArrayKeyIndex(array $argv, string $key1, string $key2): bool|int {
             //search the first key into $argv
@@ -309,20 +348,6 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 return $key_index;
             }
 
-            return false;
-        }
-
-        /**
-         * @param  $argv
-         * @return bool
-         * @author Dario Curvino <@dudo>
-         *
-         * @since
-         */
-        function verboseOutput($argv): bool {
-            if (in_array('--verbose', $argv) || in_array('-v', $argv)) {
-                return true;
-            }
             return false;
         }
 
@@ -368,7 +393,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          * @param $folder_path
          * @param $file_open
          * @return void
-         * @since 1.0.2
+         * @since 2.0.0
          * @author Dario Curvino <@dudo>
          *
          */
@@ -427,7 +452,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 // Find occurrences of the apply_filters and do_action functions
                 $matches = [];
                 $num_matches = preg_match_all(
-                    '/\b(apply_filters|do_action)\b\s*\(\s*[\'"](' . $prefix . '[^\'"]+)[\'"]/', $file_content,
+                    '/\b(' .$this->function_to_seek. ')\b\s*\(\s*[\'"](' . $prefix . '[^\'"]+)[\'"]/', $file_content,
                     $matches, PREG_OFFSET_CAPTURE
                 );
                 if ($num_matches > 0) {
@@ -496,10 +521,14 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                     fwrite($file_open, $description . "\n\n");
                 }
 
-                if (isset($comment['args']) && $comment['args'] !== '') {
-                    $args = $comment['args'];
+                //do not write table of args for add_shortcode
+                if($this->function_to_seek !== 'add_shortcode') {
+                    if (isset($comment['args']) && $comment['args'] !== '') {
+                        $args = $comment['args'];
 
-                    $this->writeTable($file_open, $args);
+                        $this->writeTable($file_open, $args);
+                        $this->writeTable($file_open, $args);
+                    }
                 }
             }
         }

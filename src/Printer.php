@@ -2,7 +2,7 @@
 /**
  * Helper class to print into the terminal
  *
- * @since 1.0.2
+ * @since 2.0.0
  * @author Dario Curvino <@dudo>
  */
 
@@ -21,7 +21,7 @@ if (!class_exists('Dudo1985\WPDocGen\Printer')) {
          * @return void
          * @author Dario Curvino <@dudo>
          *
-         * @since 1.0.2
+         * @since 2.0.0
          */
         public function newline(int $num_of_newlines = 1): void {
             if($num_of_newlines < 1) {
@@ -54,7 +54,7 @@ if (!class_exists('Dudo1985\WPDocGen\Printer')) {
          * @return void
          * @author Dario Curvino <@dudo>
          *
-         * @since 1.0.2
+         * @since 2.0.0
          */
         public function error($message): void {
             echo ANSI_BOLD . ANSI_RED .' Error:'. ANSI_RESET. ' ' .$message ."\n";
@@ -67,7 +67,7 @@ if (!class_exists('Dudo1985\WPDocGen\Printer')) {
          * @param $message
          * @param $folder
          * @return void
-         * @since 1.0.2
+         * @since 2.0.0
          * @author Dario Curvino <@dudo>
          *
          */
@@ -82,7 +82,7 @@ if (!class_exists('Dudo1985\WPDocGen\Printer')) {
          * @return void
          * @author Dario Curvino <@dudo>
          *
-         * @since 1.0.2
+         * @since 2.0.0
          */
         public function messageGreen($message): void {
             echo ANSI_GREEN . $message . ANSI_RESET ."\n";
@@ -94,7 +94,7 @@ if (!class_exists('Dudo1985\WPDocGen\Printer')) {
          * @param $options
          * @param $description
          * @return void
-         * @since 1.0.2
+         * @since 2.0.0
          * @author Dario Curvino <@dudo>
          *
          */
@@ -117,7 +117,7 @@ if (!class_exists('Dudo1985\WPDocGen\Printer')) {
          * @param $description
          * @param $example
          * @return void
-         * @since 1.0.2
+         * @since 2.0.0
          * @author Dario Curvino <@dudo>
          *
          */

@@ -1,4 +1,4 @@
-[1.0.2]
+[2.0.0]
 ### Added
 - Added option -h or --help to print a help message
 - Added option -v or --verbose to print detailed output
