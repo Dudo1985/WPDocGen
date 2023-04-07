@@ -539,7 +539,6 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                         $args = $comment['args'];
 
                         $this->writeTable($file_open, $args);
-                        $this->writeTable($file_open, $args);
                     }
                 }
             }
@@ -554,8 +553,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          *
          * @author Dario Curvino <@dudo>
          */
-        function writeTable($file_open, array $args): void
-        {
+        function writeTable($file_open, array $args): void {
             $t = new MarkdownTable();
             $headers = ['Argument', 'Type', 'Description'];
 
@@ -596,7 +594,14 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 $this->printer->message($processed_php_file_text);
                 $this->printer->message('Execution time:  ' . $total_time . ' seconds');
             }
-            $this->printer->message(ANSI_GREEN. $this->hook_count .ANSI_RESET. ' hooks has been found');
+
+            if($this->seek_shortcode === true) {
+                $type = ' shortcodes';
+            } else {
+                $type = ' hooks';
+            }
+
+            $this->printer->message(ANSI_GREEN. $this->hook_count .ANSI_RESET. $type . ' has been found');
             $this->printer->message('File ' . $this->printer->returnStringWithBackground($this->file_name) .
                 ' saved successfully.');
         }
