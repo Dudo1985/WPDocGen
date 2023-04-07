@@ -1,14 +1,4 @@
 
- ### `do_action('yasr_add_admin_scripts_begin')` 
-
- Source: [../yet-another-stars-rating//admin/classes/YasrAdmin.php, line 151](../yet-another-stars-rating//admin/classes/YasrAdmin.php:151)
-
-*Add custom script in one of the page used by YASR, at the beginning*
-
-| Argument | Type | Description |
-| --- | --- | --- |
-| $hook | string |  |
-___
  ### `do_action('yasr_add_admin_scripts_end')` 
 
  Source: [../yet-another-stars-rating//admin/classes/YasrAdmin.php, line 168](../yet-another-stars-rating//admin/classes/YasrAdmin.php:168)

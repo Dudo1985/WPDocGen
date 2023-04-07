@@ -169,14 +169,14 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             //print version if -V or --version is used
             $this->printVersion($argv);
 
-            //check if the script is called with -e param
-            $this->excluded_folders = $this->getExcludeFolders($argv);
-
-            //check if script is called with -p param
-            $this->prefixes           = $this->getPrefixes($argv);
-
             //check if the script is called with -v or --verbose
             $this->verbose          = $this->verboseOutput($argv);
+
+            //check if the script is called with -e param
+            $this->excluded_folders = $this->getOptions($argv, '--exclude', '-e');
+
+            //check if script is called with --prefix -p param
+            $this->prefixes         = (string)$this->getOptions($argv, '--prefix', '-p');
         }
 
         /**
@@ -190,28 +190,31 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          * @return void
          */
         function helpMessage($argv): void {
-            if (in_array('--help', $argv) || in_array('-h', $argv)) {
-                $this->printer->newline();
-                $this->printer->messageGreen('Usage');
-                $this->printer->message(self::USAGE_MESSAGE);
-                $this->printer->newline();
-                $this->printer->messageGreen('Options');
-                $this->printer->helpOption('-h, --help', 'Display this help message');
-                $this->printer->helpOption('-V, --version','Display this application version');
-                $this->printer->helpOption('-e, --exclude','Exclude the specified folders, comma separated');
-                $this->printer->helpOption('-p, --prefix', 'Only parse hooks starting with the specified prefix.');
-                $this->printer->newline();
-                $this->printer->messageGreen('Examples');
-                $this->printer->helpExamples('To scan all the files in the current directory,
-                and save the result into the file hooks.md', 'wp-doc-gen . hooks.md');
-                $this->printer->newline();
-                $this->printer->helpExamples('To scan all the files in the current directory,
-                excluding the dirs vendor and node_modules, and catch only hooks with prefixes \'prefix1_ prefix2_\'',
-                    'wp-doc-gen . hooks.md --exclude vendor node_modules --prefix prefix1_ prefix2_');
-
-                exit(0);
+            if (!in_array('--help', $argv) && !in_array('-h', $argv)) {
+                return;
             }
+
+            $this->printer->newline();
+            $this->printer->messageGreen('Usage');
+            $this->printer->message(self::USAGE_MESSAGE);
+            $this->printer->newline();
+            $this->printer->messageGreen('Options');
+            $this->printer->helpOption('-h, --help', 'Display this help message');
+            $this->printer->helpOption('-V, --version','Display this application version');
+            $this->printer->helpOption('-e, --exclude','Exclude the specified folders, comma separated');
+            $this->printer->helpOption('-p, --prefix', 'Only parse hooks starting with the specified prefix.');
+            $this->printer->newline();
+            $this->printer->messageGreen('Examples');
+            $this->printer->helpExamples('To scan all the files in the current directory,
+            and save the result into the file hooks.md', 'wp-doc-gen . hooks.md');
+            $this->printer->newline();
+            $this->printer->helpExamples('To scan all the files in the current directory,
+            excluding the dirs vendor and node_modules, and catch only hooks with prefixes \'prefix1_ prefix2_\'',
+                'wp-doc-gen . hooks.md --exclude vendor node_modules --prefix prefix1_ prefix2_');
+
+            exit(0);
         }
+
         /**
          * print Version if -v or --version is used
          *
@@ -231,30 +234,30 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         }
 
         /**
-         * Check if script is executed with -e, and, if so, return a string of excluded dirs comma separated
-         * e.g. vendor,node_modules
+         * Check if script is executed with passed params, and return the option
          *
+         * @param $argv
+         * @param $needle1
+         * @param $needle2
+         * @return false|string
          * @author Dario Curvino <@dudo>
          * @since  1.0.0
          *
-         * @param $argv
-         *
-         * @return false|string
          */
-        function getExcludeFolders($argv): bool|string {
-            if (!in_array('--exclude', $argv) && !in_array('-e', $argv)) {
+        function getOptions($argv, $needle1, $needle2): bool|string {
+            if (!in_array($needle1, $argv) && !in_array($needle2, $argv)) {
                 return false;
             }
 
-            $exclude_key_index = $this->returnArrayKeyIndex($argv, '--exclude', '-e');
-            if ($exclude_key_index === false) {
+            $argv_key_index = $this->returnArrayKeyIndex($argv, $needle1, $needle2);
+            if ($argv_key_index === false) {
                 return false;
             }
 
-            $exclude_folder = false;
+            $option = false;
 
-            if (isset($argv[$exclude_key_index + 1])) {
-                $exclude_args = array_slice($argv, $exclude_key_index + 1);
+            if (isset($argv[$argv_key_index + 1])) {
+                $exclude_args = array_slice($argv, $argv_key_index + 1);
                 foreach ($exclude_args as $arg) {
                     if (str_starts_with($arg, '-')) {
                         break;
@@ -264,64 +267,19 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                     //if a ',' is found at the end of the string, remove it
                     $arg = rtrim($arg, ',');
 
-                    if ($exclude_folder === false) {
-                        $exclude_folder = $arg;
+                    if ($option === false) {
+                        $option = $arg;
                     } else {
-                        $exclude_folder .= ', ' . $arg;
+                        $option .= ', ' . $arg;
                     }
                 }
             }
 
-            if ($exclude_folder !== false) {
-                $this->printer->messageWithBackground('Excluding folders: ', $exclude_folder);
+            if ($option !== false && ($needle1 === '-e' || $needle2 === 'exclude')) {
+                $this->printer->messageWithBackground('Excluding folders: ', $option);
             }
 
-            return $exclude_folder;
-        }
-
-        /**
-         * Return prefix if param -p or --prefix is used
-         *
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
-         * @param $argv
-         *
-         * @return string
-         */
-        function getPrefixes($argv): string {
-            if (!in_array('--prefix', $argv) && !in_array('-p', $argv)) {
-                return '';
-            }
-
-            $prefix_key_index = $this->returnArrayKeyIndex($argv, '--prefix', '-p');
-            if ($prefix_key_index === false) {
-                return '';
-            }
-
-            $prefix = '';
-
-            if (isset($argv[$prefix_key_index + 1])) {
-                $prefix_args = array_slice($argv, $prefix_key_index + 1);
-
-                foreach ($prefix_args as $arg) {
-                    if (str_starts_with($arg, '-')) {
-                        break;
-                    }
-
-                    //add support for comma separated string
-                    //if a ',' is found at the end of the string, remove it
-                    $arg = rtrim($arg, ',');
-
-                    if ($prefix === '') {
-                        $prefix = $arg;
-                    } else {
-                        $prefix .= ', ' . $arg;
-                    }
-                }
-            }
-
-            return $prefix;
+            return $option;
         }
 
         /**
