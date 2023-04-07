@@ -71,8 +71,8 @@ if (!class_exists('Dudo1985\WPDocGen\Printer')) {
          * @author Dario Curvino <@dudo>
          *
          */
-        public function messageWithDir($message, $folder): void {
-           echo $message . $this->returnStringWithBackground($folder) ."\n";
+        public function messageWithBackground($message, $message_in_bg): void {
+           echo $message . $this->returnStringWithBackground($message_in_bg) ."\n";
         }
 
         /**
@@ -139,7 +139,7 @@ if (!class_exists('Dudo1985\WPDocGen\Printer')) {
          * @author Dario Curvino <@dudo>
          *
          */
-        private function returnStringWithBackground ($string): string {
+        public function returnStringWithBackground ($string): string {
             return ANSI_BG_DARK_GREY . ($string) . ANSI_RESET;
         }
     }

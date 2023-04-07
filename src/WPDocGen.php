@@ -89,33 +89,24 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             $folder_path     = $argv[1];
             $this->file_name = $argv[2];
 
+            //print an error and exit(1) if input folder doesn't exist
             $this->inputFolderExists($folder_path);
 
-            // If the output file doesn't exist, create it
-            if (!file_exists($this->file_name)) {
-                touch($this->file_name);
-            }
+            //create file if it doesn't exist, print error if file can't be created or is not writable
+            $this->checkOutputFile();
 
-            if (!is_writable($this->file_name)) {
-                $this->printer->error('the specified output file is not writable');
-                exit(1);
-            }
-
+            //check input params
             $this->checkParams($argv);
 
-            $this->printer->messageWithDir('Starting Folder exploration: ', $folder_path);
+            $this->printer->messageWithBackground('Starting Folder exploration: ', $folder_path);
 
             $start_time = microtime(true);
 
             // Use the explore_folder function to explore the folder and write the documentation
             $this->exploreFolder($folder_path, true);
 
-            $this->printer->message('Finished folder exploration'. "\n");
-
             //additional info if verbose is enabled
-            $this->printAdditionalInfo($start_time);
-
-            $this->printer->message(ANSI_GREEN. $this->hook_count .ANSI_RESET. ' hooks has been found');
+            $this->printInfo($start_time);
         }
 
         /**
@@ -131,6 +122,32 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         function inputFolderExists($folder_path): void {
             if (!is_dir($folder_path)) {
                 $this->printer->error('the input folder does not exist.');
+                exit(1);
+            }
+        }
+
+        /**
+         * Checks if the output file exists and is writable. If the file doesn't exist,
+         * it will be created.
+         *
+         * @return void
+         * @since  1.0.2
+         * @author Dario Curvino <@dudo>
+         */
+        function checkOutputFile(): void {
+            // If the output file doesn't exist, create it
+            if (!file_exists($this->file_name)) {
+                $file_created = touch($this->file_name);
+
+                if($file_created === false) {
+                    $this->printer->error('could not create the output file');
+                    exit(1);
+                }
+
+            }
+
+            if (!is_writable($this->file_name)) {
+                $this->printer->error('the specified output file is not writable');
                 exit(1);
             }
         }
@@ -246,7 +263,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             }
 
             if ($exclude_folder !== false) {
-                $this->printer->messageWithDir('Excluding folders: ', $exclude_folder);
+                $this->printer->messageWithBackground('Excluding folders: ', $exclude_folder);
             }
 
             return $exclude_folder;
@@ -361,7 +378,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 // If the file is a folder, call again exploreFolder
                 if (is_dir($file_path)) {
                     if($this->verbose === true) {
-                        $this->printer->messageWithDir('Exploring folder ', $file_path);
+                        $this->printer->messageWithBackground('Exploring folder ', $file_path);
                     }
                     $this->exploreFolder($file_path);
                 }
@@ -735,7 +752,9 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          *
          * @since
          */
-        public function printAdditionalInfo($start_time): void {
+        public function printInfo($start_time): void {
+            $this->printer->message('Finished folder exploration'. "\n");
+
             if($this->verbose === true) {
                 $processed_php_file_text = ANSI_GREEN. $this->files_count_php .ANSI_RESET. ' php files have been processed';
 
@@ -745,6 +764,9 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 $this->printer->message($processed_php_file_text);
                 $this->printer->message('Execution time:  ' . $total_time . ' seconds');
             }
+            $this->printer->message(ANSI_GREEN. $this->hook_count .ANSI_RESET. ' hooks has been found');
+            $this->printer->message('File ' . $this->printer->returnStringWithBackground($this->file_name) .
+                ' saved successfully.');
         }
 
         /**
