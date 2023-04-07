@@ -1,7 +1,6 @@
 <?php
 namespace Dudo1985\WPDocGen;
 
-use SplFileObject;
 
 /**
  * @author Dario Curvino <@dudo>
@@ -60,6 +59,8 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          */
         public bool $verbose = false;
 
+        private CommentParser $parser;
+
         /**
          * Printer instance
          *
@@ -76,6 +77,8 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          *
          */
         public function init(): void {
+
+            $this->parser  = new CommentParser();
             $this->printer = new Printer();
 
             global $argc;
@@ -203,7 +206,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 $this->printer->messageGreen('Examples');
                 $this->printer->helpExamples('To scan all the files in the current directory,
                 and save the result into the file hooks.md', 'wp-doc-gen . hooks.md');
-                $this->printer->newline(1);
+                $this->printer->newline();
                 $this->printer->helpExamples('To scan all the files in the current directory,
                 excluding the dirs vendor and node_modules, and catch only hooks with prefix \'yasr_\'',
                     'wp-doc-gen . hooks.md --exclude vendor,node_modules --prefix yasr_');
@@ -444,7 +447,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 $link        = "Source: [$file_path, line $line_number]($file_path:$line_number)";
 
                 //get the comment
-                $comment = $this->getDocCommentByLine($file_path, $line_number);
+                $comment = $this->parser->getDocCommentByLine($file_path, $line_number);
 
                 //write the hook and the link to file and line
                 //e.g. do_action('yasr_add_admin_scripts_begin')
@@ -462,104 +465,13 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         }
 
         /**
-         * Given a file path and a line number, returns the documentation comment
-         * preceding the line as a string.
-         *
-         * @param string $filePath   The path of the file to analyze.
-         * @param int    $lineNumber The line number to analyze.
-         *
-         * @return array The documentation comment preceding the line as an array.
-         */
-        function getDocCommentByLine(string $filePath, int $lineNumber): array {
-            $comment = []; //avoid undefined
-            $file    = new SplFileObject($filePath);
-            $file->seek($lineNumber - 2); // positions on the previous line
-
-            // Analyzes the previous lines to find the documentation comment
-            $line = trim($file->current());
-
-            //if the previous line is the end of the comment, get the text until /** (the begin of the comment) is reached
-            if ($line === '*/') {
-                while ($file->valid()) {
-                    $file->seek($file->key() - 1);
-                    $line = trim($file->current());
-
-                    //found the beginning of the comment
-                    if ($line === '/**') {
-                        break;
-                    }
-                }
-            }
-
-            // If line is the beginning of the comment, start reading the comment
-            if ($line === '/**') {
-                $comment = $this->loopComment($file);
-            }
-
-            return $comment;
-        }
-
-        /**
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
-         * @param $file | SplFileObject object
-         *
-         * @return array
-         */
-        function loopComment($file): array {
-            $comment = [];
-            //in markdown, this is for italics
-            $comment['description'] = '*';
-
-            while ($file->valid()) {
-                $comment_line = trim($file->current());
-
-                // If we reach the end of the comment, stop
-                if ($comment_line === '/**' || $comment_line === '*') {
-                    $file->next();
-                    continue;
-                }
-
-                //if this is the end of the comment, exit from cycle
-                if ($comment_line === '*/') {
-                    break;
-                }
-
-                //remove all the * at the beginning of the string, if exists
-                if (str_starts_with($comment_line, '*')) {
-                    $comment_line = trim(substr($comment_line, 1));
-                }
-
-                if (!$this->isTag($comment_line)) {
-                    //if the comment is still empty, add just the text
-                    if ($comment['description'] === '*') {
-                        $comment['description'] .= $comment_line . '*';
-                    }
-                    //also add newlines otherwise
-                    else {
-                        $comment['description'] .= "\n\n*" . $comment_line . '*';
-                    }
-                }
-                //the line begin with a tag
-                else {
-                    $comment_line_no_tag = $this->removeTagFromString($comment_line);
-                    $comment['args'][]   = $comment_line_no_tag;
-                }
-                //go to next line
-                $file->next();
-            }
-            return $comment;
-        }
-
-        /**
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
          * @param $comment
          * @param $file_open
          *
          * @return void
+         * @since  1.0.0
+         *
+         * @author Dario Curvino <@dudo>
          */
         function writeComment($comment, $file_open): void {
             if (!empty($comment)) {
@@ -578,25 +490,26 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         }
 
         /**
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
          * @param $file_open
          * @param $args array Here $args must begin with an argument, then type and description
          *
          * @return void
+         * @since  1.0.0
+         *
+         * @author Dario Curvino <@dudo>
          */
-        function writeTable($file_open, array $args): void {
-            $t       = new MarkdownTable();
+        function writeTable($file_open, array $args): void
+        {
+            $t = new MarkdownTable();
             $headers = ['Argument', 'Type', 'Description'];
 
             foreach ($args as $arg) {
                 //remove multiple consecutive whitespaces
-                $arg = self::removeMultipleWhitespaces($arg);
+                $arg = WPDocGen::removeMultipleWhitespaces($arg);
 
-                $argument_type = $this->findType($arg);
-                $argument_name = $this->findArgument($arg);
-                $argument_desc = $this->findArgumentDescription($arg, $argument_name);
+                $argument_type = $this->parser->findType($arg);
+                $argument_name = $this->parser->findArgument($arg);
+                $argument_desc = $this->parser->findArgumentDescription($arg, $argument_name);
 
                 $t->addRow([$argument_name, $argument_type, $argument_desc]);
             }
@@ -604,143 +517,6 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
             $t->addHeader($headers);
 
             fwrite($file_open, $t->getTable());
-        }
-
-        /**
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
-         * @param string $string
-         *
-         * @return string|void
-         */
-        function removeTagFromString(string $string) {
-            $first_word = $this->findFirstWord($string);
-
-            if ($this->isTag($first_word)) {
-                return trim(str_replace($first_word, '', $string));
-            }
-        }
-
-        /**
-         * In a doc block the type come after the tag and before the argument.
-         * When this method is called, the tag has been removed.
-         * So, if there is a word, must be the type
-         *
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
-         * @param string $string the string where to search the type
-         *
-         * @return string
-         */
-        function findType(string $string): string {
-            $first_word = $this->findFirstWord($string);
-
-            if (!$this->isTag($first_word) && !$this->isArgument($first_word)) {
-                return $first_word;
-            }
-
-            return '';
-        }
-
-        /**
-         * Find the name of the first variable inside a string
-         *
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
-         * @param $string
-         *
-         * @return string
-         */
-        function findArgument($string): string {
-            $argument = '';
-
-            $pattern = '/\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/';
-
-            if (preg_match($pattern, $string, $matches)) {
-                $argument = $matches[0];
-            }
-
-            return $argument;
-        }
-
-        /**
-         * In a doc block the description come after whe argument
-         * So, this method remove all the text before the argument (included)
-         *
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
-         * @param $string
-         * @param $argument
-         *
-         * @return string
-         */
-        function findArgumentDescription($string, $argument): string {
-            $description = '';
-
-            if ($string && $argument) {
-                //find the position of the argument inside the string
-                $argument_index = strpos($string, $argument);
-
-                //get the text before the argument
-                $text_before_desc = $argument_index + strlen($argument);
-
-                //get the description
-                $description = substr($string, $text_before_desc);
-            }
-
-            return $description;
-        }
-
-        /**
-         * Return the first word of a string
-         *
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
-         * @param $string
-         *
-         * @return false|string
-         */
-        public function findFirstWord($string): bool|string {
-            return strtok($string, ' '); // First word of the string
-        }
-
-        /**
-         * Check if the provided word is a tag
-         *
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
-         * @param $word
-         *
-         * @return bool
-         */
-        public function isTag($word): bool {
-            if (str_starts_with($word, '@')) {
-                return true;
-            }
-            return false;
-        }
-
-        /**
-         * Check if the provided word is an argument
-         *
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
-         * @param $word
-         *
-         * @return bool
-         */
-        public function isArgument($word): bool {
-            if (str_starts_with($word, '$')) {
-                return true;
-            }
-            return false;
         }
 
         /**
