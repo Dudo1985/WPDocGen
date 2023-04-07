@@ -30,14 +30,14 @@
 ___
  ### Shortcode yasr_visitor_votes 
 
- Source: [examples/shortcodes.php, line 67](examples/shortcodes.php:67)
+ Source: [examples/shortcodes.php, line 53](examples/shortcodes.php:53)
 
 *Yasr Visitor Votes*
 
 ___
  ### Shortcode yasr_multiset 
 
- Source: [examples/shortcodes.php, line 87](examples/shortcodes.php:87)
+ Source: [examples/shortcodes.php, line 60](examples/shortcodes.php:60)
 
 *Yasr multiset*
 
@@ -46,21 +46,14 @@ ___
 ___
  ### Shortcode yasr_visitor_multiset 
 
- Source: [examples/shortcodes.php, line 103](examples/shortcodes.php:103)
+ Source: [examples/shortcodes.php, line 65](examples/shortcodes.php:65)
 
 *Yasr Visitor Multiset*
 
 ___
- ### Shortcode yasr_top_ten_highest_rated 
-
- Source: [examples/shortcodes.php, line 120](examples/shortcodes.php:120)
-
-*
-
-___
  ### Shortcode yasr_ov_ranking 
 
- Source: [examples/shortcodes.php, line 128](examples/shortcodes.php:128)
+ Source: [examples/shortcodes.php, line 73](examples/shortcodes.php:73)
 
 *Yasr Overall Ranking*
 
@@ -69,39 +62,25 @@ ___
 ___
  ### Shortcode yasr_most_or_highest_rated_posts 
 
- Source: [examples/shortcodes.php, line 147](examples/shortcodes.php:147)
+ Source: [examples/shortcodes.php, line 80](examples/shortcodes.php:80)
 
 *Yasr Visitor Votes Ranking*
 
 *This shortcode print the higher / most rated posts with yasr_visitor_votes*
 
 ___
- ### Shortcode yasr_top_5_reviewers 
-
- Source: [examples/shortcodes.php, line 162](examples/shortcodes.php:162)
-
-*
-
-___
  ### Shortcode yasr_top_reviewers 
 
- Source: [examples/shortcodes.php, line 170](examples/shortcodes.php:170)
+ Source: [examples/shortcodes.php, line 89](examples/shortcodes.php:89)
 
 *Yasr Top reviewers*
 
 *Shortcode to display most active reviewers*
 
 ___
- ### Shortcode yasr_top_ten_active_users 
-
- Source: [examples/shortcodes.php, line 175](examples/shortcodes.php:175)
-
-*
-
-___
  ### Shortcode yasr_most_active_users 
 
- Source: [examples/shortcodes.php, line 183](examples/shortcodes.php:183)
+ Source: [examples/shortcodes.php, line 97](examples/shortcodes.php:97)
 
 *Yasr Most Active users*
 
@@ -110,21 +89,21 @@ ___
 ___
  ### Shortcode yasr_multi_set_ranking 
 
- Source: [examples/shortcodes.php, line 201](examples/shortcodes.php:201)
+ Source: [examples/shortcodes.php, line 103](examples/shortcodes.php:103)
 
 *YASR Multiset Ranking*
 
 ___
  ### Shortcode yasr_visitor_multi_set_ranking 
 
- Source: [examples/shortcodes.php, line 210](examples/shortcodes.php:210)
+ Source: [examples/shortcodes.php, line 109](examples/shortcodes.php:109)
 
 *Yasr Visitor Multiset Ranking*
 
 ___
  ### Shortcode yasr_user_rate_history 
 
- Source: [examples/shortcodes.php, line 221](examples/shortcodes.php:221)
+ Source: [examples/shortcodes.php, line 117](examples/shortcodes.php:117)
 
 *Yasr User Rate History*
 
@@ -133,7 +112,7 @@ ___
 ___
  ### Shortcode yasr_display_posts 
 
- Source: [examples/shortcodes.php, line 234](examples/shortcodes.php:234)
+ Source: [examples/shortcodes.php, line 127](examples/shortcodes.php:127)
 
 *Yasr Display Posts*
 

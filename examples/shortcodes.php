@@ -48,36 +48,9 @@ if (!defined('ABSPATH')) {
 add_shortcode('yasr_overall_rating', 'shortcode_overall_rating_callback');
 
 /**
- * @author Dario Curvino <@dudo>
- *
- * @param $atts
- * @param $content
- * @param $shortcode_tag
- *
- * @return string|void
- */
-function shortcode_overall_rating_callback ($atts, $content=false, $shortcode_tag=false) {
-   //
-} //end function
-
-
-/**
  * Yasr Visitor Votes
  */
 add_shortcode('yasr_visitor_votes', 'shortcode_visitor_votes_callback');
-
-/**
- *
- * @param      $atts
- * @param bool $content
- * @param bool $shortcode_tag
- *
- * @return string|void|null
- */
-function shortcode_visitor_votes_callback($atts, $content=false, $shortcode_tag=false) {
-    //
-} //End function shortcode_visitor_votes_callback
-
 
 /**
  * Yasr multiset
@@ -87,37 +60,9 @@ function shortcode_visitor_votes_callback($atts, $content=false, $shortcode_tag=
 add_shortcode ('yasr_multiset',  'yasr_multiset_callback');
 
 /**
- * @param      $atts
- * @param bool $content
- * @param bool $shortcode_tag
- *
- * @return bool|string
- */
-function yasr_multiset_callback($atts, $content, $shortcode_tag) {
-    //
-}
-
-/**
  * Yasr Visitor Multiset
  */
 add_shortcode ('yasr_visitor_multiset', 'yasr_visitor_multiset_callback');
-
-/**
- * @param      $atts
- * @param bool $content
- * @param bool $shortcode_tag
- *
- * @return string
- */
-function yasr_visitor_multiset_callback($atts, $content, $shortcode_tag) {
-   //
-}
-
-/**
- * @deprecated since version 2.6.2
- * @todo remove DEC 2023
- */
-add_shortcode ('yasr_top_ten_highest_rated', 'yasr_ov_ranking_callback');
 
 /**
  * Yasr Overall Ranking
@@ -128,38 +73,12 @@ add_shortcode ('yasr_top_ten_highest_rated', 'yasr_ov_ranking_callback');
 add_shortcode ('yasr_ov_ranking', 'yasr_ov_ranking_callback');
 
 /**
- * @param $atts
- * @param $content
- * @param $shortcode_tag
- *
- * @return string
- */
-function yasr_ov_ranking_callback($atts, $content, $shortcode_tag) {
-    //
-} //End function
-
-
-/**
  * Yasr Visitor Votes Ranking
  *
  * This shortcode print the higher / most rated posts with yasr_visitor_votes
  */
 add_shortcode ('yasr_most_or_highest_rated_posts', 'yasr_most_or_highest_rated_posts_callback');
-/**
- * @param $atts
- * @param $content
- * @param $shortcode_tag
- *
- */
-function yasr_most_or_highest_rated_posts_callback($atts, $content, $shortcode_tag) {
-    //
-} //End function
 
-
-/**
- * @deprecated deprecated since version 2.6.2
- */
-add_shortcode ('yasr_top_5_reviewers', 'yasr_ranking_users_callback');
 
 /**
  * Yasr Top reviewers
@@ -170,11 +89,6 @@ add_shortcode ('yasr_top_5_reviewers', 'yasr_ranking_users_callback');
 add_shortcode ('yasr_top_reviewers', 'yasr_ranking_users_callback');
 
 /**
- * @deprecated since version 2.6.2
- */
-add_shortcode ('yasr_top_ten_active_users', 'yasr_ranking_users_callback');
-
-/**
  * Yasr Most Active users
  *
  * This shortcode show which users leave more votes on yasr_visitor_votes
@@ -182,36 +96,18 @@ add_shortcode ('yasr_top_ten_active_users', 'yasr_ranking_users_callback');
  */
 add_shortcode ('yasr_most_active_users', 'yasr_ranking_users_callback');
 
-/**
- * @author Dario Curvino <@dudo>
- *
- * @param $atts
- * @param $content
- * @param $shortcode_tag
- *
- * @return string
- */
-function yasr_ranking_users_callback ($atts, $content, $shortcode_tag) {
-   //
-} //End users rankings
 
 /**
  * YASR Multiset Ranking
  */
 add_shortcode ('yasr_multi_set_ranking', 'yasr_multi_set_ranking_callback');
 
-function yasr_multi_set_ranking_callback($atts, $content, $shortcode_tag) {
-    //
-} //End function
 
 /**
  * Yasr Visitor Multiset Ranking
  */
 add_shortcode ('yasr_visitor_multi_set_ranking', 'yasr_visitor_multi_set_ranking_callback');
 
-function yasr_visitor_multi_set_ranking_callback($atts, $content, $shortcode_tag) {
-    //
-} //End function
 
 /**
  * Yasr User Rate History
@@ -219,9 +115,6 @@ function yasr_visitor_multi_set_ranking_callback($atts, $content, $shortcode_tag
  * When a user is logged in, print all the rating that user leaved
  */
 add_shortcode('yasr_user_rate_history', 'yasr_users_front_widget_callback');
-function yasr_users_front_widget_callback() {
-    //
-} //End callback function
 
 
 /**
@@ -232,17 +125,3 @@ function yasr_users_front_widget_callback() {
  * @since 3.3.0
  */
 add_shortcode('yasr_display_posts', 'yasr_display_posts_callback');
-/**
- * @author Dario Curvino <@dudo>
- *
- * @since 3.3.0
- *
- * @param $atts
- * @param $content
- * @param $shortcode_tag
- *
- */
-function yasr_display_posts_callback($atts, $content, $shortcode_tag) {
-   //
-}
-
