@@ -39,6 +39,8 @@ However, if you use the `--shortcodes` or `-s` will search for `add_shortcode` f
 
 #### `vendor/bin/wp-doc-gen . shortcodes.md`
 
+---
+
 #### `--exclude` or `-e`
 
 Exclude the specified folders,  e.g.
@@ -49,6 +51,8 @@ Another example, if you're launching the script from another dir:
 
 There is no need to include the full paths of the excluded dirs, it is automatically ../my-plugin/vendor and 
 ../my-plugin/node_modules
+
+---
 
 #### `--prefix` or `-p`
 Only parse hooks or shortcodes starting with the specified prefixes.
