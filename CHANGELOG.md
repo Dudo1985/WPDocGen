@@ -1,3 +1,7 @@
+[2.0.2]
+### Added
+- In a phpDoc can now be used markdown headers
+
 [2.0.0]
 ### Added
 - Added option -s or --shortcode to search for add_shortcode functions
