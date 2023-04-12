@@ -6,8 +6,8 @@
  */
 namespace Dudo1985\WPDocGen;
 
-class phpDocumentor {
-    public $tags = array (
+class PhpDocumentor {
+    public array $tags = array (
         '@abstract',
         '@access',
         '@author',
@@ -49,11 +49,9 @@ class phpDocumentor {
      *
      * @since 2.0.2
      */
-    public function isTag ($string) {
-        foreach ($this->tags as $tag) {
-            if ($tag === $string) {
-                return true;
-            }
+    public function isTag ($string): bool {
+        if (in_array($string, $this->tags, true)) {
+            return true;
         }
         return false;
     }
