@@ -68,7 +68,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
             while ($file->valid()) {
                 $comment_line = trim($file->current());
 
-                // If we reach the end of the comment, stop
+                // Go head if this is the begin of the comment or a row starting with *
                 if ($comment_line === '/**' || $comment_line === '*') {
                     $file->next();
                     continue;
@@ -80,9 +80,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
                 }
 
                 //remove all the * at the beginning of the string, if exists
-                if (str_starts_with($comment_line, '*')) {
-                    $comment_line = trim(substr($comment_line, 1));
-                }
+                $comment_line = remove_char_begin_string($comment_line, '*');
 
                 //if the string begins with a header, leave it and go to the next line
                 if(str_starts_with($comment_line, '#')) {
@@ -91,7 +89,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
                     continue;
                 }
 
-                if (!PhpDocumentor::isTag($comment_line)) {
+                if (!$this->isTag($comment_line)) {
                     //if the comment is still empty, add just the text
                     if ($comment['description'] === '') {
                         $comment['description'] .= '*' . $comment_line . '*';
@@ -124,7 +122,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
         function removeTagFromString(string $string) {
             $first_word = find_first_word($string);
 
-            if (PhpDocumentor::isTag($first_word)) {
+            if ($this->isTag($first_word)) {
                 return trim(str_replace($first_word, '', $string));
             }
         }
@@ -144,7 +142,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
         function findType(string $string): string {
             $first_word = find_first_word($string);
 
-            if (!PhpDocumentor::isTag($first_word) && !$this->isArgument($first_word)) {
+            if (!$this->isTag($first_word) && !$this->isArgument($first_word)) {
                 return $first_word;
             }
 
@@ -200,6 +198,26 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
             }
 
             return $description;
+        }
+
+        /**
+         * Check if the provided string begin with a tag
+         *
+         * @author Dario Curvino <@dudo>
+         *
+         * @param $string
+         *
+         * @since  1.0.0
+         *@return bool
+         */
+        public function isTag($string): bool {
+            if (str_starts_with($string, '@')) {
+                $possible_tag = find_first_word($string);
+                if(PhpDocumentor::isTag($possible_tag) === true) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /**

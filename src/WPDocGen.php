@@ -537,7 +537,6 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                 if($this->seek_shortcode !== true) {
                     if (isset($comment['args']) && $comment['args'] !== '') {
                         $args = $comment['args'];
-
                         $this->writeTable($file_open, $args);
                     }
                 }
