@@ -122,7 +122,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
          *
          */
         function removeTagFromString(string $string) {
-            $first_word = $this->findFirstWord($string);
+            $first_word = find_first_word($string);
 
             if ($this->isTag($first_word)) {
                 return trim(str_replace($first_word, '', $string));
@@ -142,7 +142,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
          *
          */
         function findType(string $string): string {
-            $first_word = $this->findFirstWord($string);
+            $first_word = find_first_word($string);
 
             if (!$this->isTag($first_word) && !$this->isArgument($first_word)) {
                 return $first_word;
@@ -200,20 +200,6 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
             }
 
             return $description;
-        }
-
-        /**
-         * Return the first word of a string
-         *
-         * @param $string
-         *
-         * @return false|string
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
-         */
-        public function findFirstWord($string): bool|string {
-            return strtok($string, ' '); // First word of the string
         }
 
         /**

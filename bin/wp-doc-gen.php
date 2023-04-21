@@ -10,6 +10,7 @@ if (version_compare(PHP_VERSION, '8.0.0') < 0) {
 const WPDocGenVersion = '2.0.2';
 
 require 'src/ansi_escape_constants.php';
+require 'src/functions.php';
 require 'vendor/autoload.php';
 
 $finder = new WPDocGen();
