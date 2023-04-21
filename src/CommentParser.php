@@ -91,7 +91,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
                     continue;
                 }
 
-                if (!$this->isTag($comment_line)) {
+                if (!PhpDocumentor::isTag($comment_line)) {
                     //if the comment is still empty, add just the text
                     if ($comment['description'] === '') {
                         $comment['description'] .= '*' . $comment_line . '*';
@@ -124,7 +124,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
         function removeTagFromString(string $string) {
             $first_word = find_first_word($string);
 
-            if ($this->isTag($first_word)) {
+            if (PhpDocumentor::isTag($first_word)) {
                 return trim(str_replace($first_word, '', $string));
             }
         }
@@ -144,7 +144,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
         function findType(string $string): string {
             $first_word = find_first_word($string);
 
-            if (!$this->isTag($first_word) && !$this->isArgument($first_word)) {
+            if (!PhpDocumentor::isTag($first_word) && !$this->isArgument($first_word)) {
                 return $first_word;
             }
 
@@ -200,23 +200,6 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
             }
 
             return $description;
-        }
-
-        /**
-         * Check if the provided word is a tag
-         *
-         * @param $word
-         *
-         * @return bool
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
-         */
-        public function isTag($word): bool {
-            if (str_starts_with($word, '@')) {
-                return true;
-            }
-            return false;
         }
 
         /**
