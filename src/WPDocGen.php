@@ -157,7 +157,6 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
                     $this->printer->error('could not create the output file');
                     exit(1);
                 }
-
             }
 
             if (!is_writable($this->file_name)) {
@@ -562,7 +561,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
 
                 $argument_type = $this->parser->findType($arg);
                 $argument_name = $this->parser->findArgument($arg);
-                $argument_desc = $this->parser->findArgumentDescription($arg, $argument_name);
+                $argument_desc = $this->parser->findArgumentDescription($arg, $argument_name, $argument_type);
 
                 $t->addRow([$argument_name, $argument_type, $argument_desc]);
             }

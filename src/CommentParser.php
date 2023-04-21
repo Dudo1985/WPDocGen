@@ -89,13 +89,14 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
                     continue;
                 }
 
-                if (!$this->isTag($comment_line)) {
+                if ($this->isTag($comment_line) !== true) {
                     //if the comment is still empty, add just the text
+                    //underscore is for italic, used instead of *
                     if ($comment['description'] === '') {
-                        $comment['description'] .= '*' . $comment_line . '*';
+                        $comment['description'] .= '_' . $comment_line . '_';
                     } //also add newlines otherwise
                     else {
-                        $comment['description'] .= "\n\n*" . $comment_line . '*';
+                        $comment['description'] .= "\n\n_" . $comment_line . '_';
                     }
                 }
                 //the line begins with a tag
@@ -162,7 +163,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
         function findArgument($string): string {
             $argument = '';
 
-            $pattern = '/\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/';
+            $pattern = '/\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*(?:\-\>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)*/';
 
             if (preg_match($pattern, $string, $matches)) {
                 $argument = $matches[0];
@@ -172,26 +173,37 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
         }
 
         /**
-         * In a doc block the description come after whe argument
-         * So, this method remove all the text before the argument (included)
+         * In a doc block the description come after the argument
+         * So, this method remove all the text before the argument (included).
+         * If argument is not found, do the same for the type
+         *
+         * @author Dario Curvino <@dudo>
          *
          * @param $string
          * @param $argument
+         * @param $type
          *
-         * @return string
          * @since  1.0.0
          *
-         * @author Dario Curvino <@dudo>
+         * @return string
          */
-        function findArgumentDescription($string, $argument): string {
+        function findArgumentDescription($string, $argument, $type): string {
             $description = '';
+            $substring_to_seek = $string;
 
-            if ($string && $argument) {
+            if($argument) {
+                $substring_to_seek = $argument;
+            }
+            else if($type) {
+                $substring_to_seek = $type;
+            }
+
+            if ($string && $substring_to_seek) {
                 //find the position of the argument inside the string
-                $argument_index = strpos($string, $argument);
+                $argument_index = strpos($string, $substring_to_seek);
 
                 //get the text before the argument
-                $text_before_desc = $argument_index + strlen($argument);
+                $text_before_desc = $argument_index + strlen($substring_to_seek);
 
                 //get the description
                 $description = substr($string, $text_before_desc);

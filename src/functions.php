@@ -16,11 +16,13 @@ function find_first_word($string): bool|string {
 
 
 /**
+ * If a string begin with a provided char, remove it
+ *
  * @author Dario Curvino <@dudo>
  * @since  2.0.2
  *
  * @param $string
- * @param $char
+ * @param $char   | The char to remove
  *
  * @return string|null
  */
