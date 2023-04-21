@@ -12,7 +12,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Dudo1985\\WPDocGen\\": "src"
+            "Dudo1985\\WPDocGen\\": "src",
+            "": "src"
         }
     },
     "bin": [
