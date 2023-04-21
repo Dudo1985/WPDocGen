@@ -1,4 +1,5 @@
 <?php
+namespace Dudo1985\WPDocGen;
 
 //Reset to terminal default
 const ANSI_RESET  = "\033[0m";

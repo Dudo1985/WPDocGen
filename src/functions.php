@@ -1,5 +1,7 @@
 <?php
 
+namespace Dudo1985\WPDocGen;
+
 /**
 * Return the first word of a string
 *

@@ -1,3 +1,7 @@
+[2.0.2]
+### Added
+- Improved parser to support variable names like $this->method 
+
 [2.0.0]
 ### Added
 - Added option -s or --shortcode to search for add_shortcode functions
