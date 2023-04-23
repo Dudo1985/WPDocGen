@@ -1,109 +1,119 @@
 
  ### Shortcode yasr_overall_rating 
 
- Source: [examples/shortcodes.php, line 48](examples/shortcodes.php:48)
+ Source: [examples/shortcodes.php, line 41](examples/shortcodes.php:41)
 
 ### How to use it?
 
-*To insert the rating in this widget, there are two ways:*
+_To insert the rating in this widget, there are two ways:_
 
-*- If you're using the Classic editor, simply give a rating in the YASR metabox that appears at the top right of the*
+_- If you're using the Classic editor, simply give a rating in the YASR metabox that appears at the top right of the_
 
-*screen while you're writing a new post or page.*
+_screen while you're writing a new post or page._
 
-*- If you're using the new Gutenberg editor, click on the "+" icon to add a block, search for YASR, and select*
+_- If you're using the new Gutenberg editor, click on the "+" icon to add a block, search for YASR, and select_
 
-*YASR: Overall Rating. A new panel will appear to the right, where you can add your rating.*
+_YASR: Overall Rating. A new panel will appear to the right, where you can add your rating._
 
 ___
  ### Shortcode yasr_visitor_votes 
 
- Source: [examples/shortcodes.php, line 53](examples/shortcodes.php:53)
+ Source: [examples/shortcodes.php, line 60](examples/shortcodes.php:60)
 
-*Yasr Visitor Votes*
+### How to use it?
+
+_To insert the rating in this widget, there are two ways:_
+
+_- You can paste the shortcode [yasr_visitor_votes] where you need to show the widget, or you can use the auto insert_
+
+_feature as explained in [this tutorial](https://yetanotherstarsrating.com/tutorials/)._
+
+_- If you're using the new Gutenberg editor, click on the "+" icon to add a block, search for YASR and select YASR: Visitor Votes._
 
 ___
  ### Shortcode yasr_multiset 
 
- Source: [examples/shortcodes.php, line 60](examples/shortcodes.php:60)
+ Source: [examples/shortcodes.php, line 69](examples/shortcodes.php:69)
 
-*Yasr multiset*
+_`[yasr_multiset]` allows you to insert a rating for each aspect of your review (up to nine rows)._
 
-*This shortcode return author multi set*
+_The setid is a number that identifies the multiset._
+
+_This shortcode return author multi set_
 
 ___
  ### Shortcode yasr_visitor_multiset 
 
- Source: [examples/shortcodes.php, line 65](examples/shortcodes.php:65)
+ Source: [examples/shortcodes.php, line 74](examples/shortcodes.php:74)
 
-*Yasr Visitor Multiset*
+_Yasr Visitor Multiset_
 
 ___
  ### Shortcode yasr_ov_ranking 
 
- Source: [examples/shortcodes.php, line 73](examples/shortcodes.php:73)
+ Source: [examples/shortcodes.php, line 82](examples/shortcodes.php:82)
 
-*Yasr Overall Ranking*
+_Yasr Overall Ranking_
 
-*This shortcode print the highest rated posts by overall_rating*
+_This shortcode print the highest rated posts by overall_rating_
 
 ___
  ### Shortcode yasr_most_or_highest_rated_posts 
 
- Source: [examples/shortcodes.php, line 80](examples/shortcodes.php:80)
+ Source: [examples/shortcodes.php, line 89](examples/shortcodes.php:89)
 
-*Yasr Visitor Votes Ranking*
+_Yasr Visitor Votes Ranking_
 
-*This shortcode print the higher / most rated posts with yasr_visitor_votes*
+_This shortcode print the higher / most rated posts with yasr_visitor_votes_
 
 ___
  ### Shortcode yasr_top_reviewers 
 
- Source: [examples/shortcodes.php, line 89](examples/shortcodes.php:89)
+ Source: [examples/shortcodes.php, line 98](examples/shortcodes.php:98)
 
-*Yasr Top reviewers*
+_Yasr Top reviewers_
 
-*Shortcode to display most active reviewers*
+_Shortcode to display most active reviewers_
 
 ___
  ### Shortcode yasr_most_active_users 
 
- Source: [examples/shortcodes.php, line 97](examples/shortcodes.php:97)
+ Source: [examples/shortcodes.php, line 106](examples/shortcodes.php:106)
 
-*Yasr Most Active users*
+_Yasr Most Active users_
 
-*This shortcode show which users leave more votes on yasr_visitor_votes*
+_This shortcode show which users leave more votes on yasr_visitor_votes_
 
 ___
  ### Shortcode yasr_multi_set_ranking 
 
- Source: [examples/shortcodes.php, line 103](examples/shortcodes.php:103)
+ Source: [examples/shortcodes.php, line 112](examples/shortcodes.php:112)
 
-*YASR Multiset Ranking*
+_YASR Multiset Ranking_
 
 ___
  ### Shortcode yasr_visitor_multi_set_ranking 
 
- Source: [examples/shortcodes.php, line 109](examples/shortcodes.php:109)
+ Source: [examples/shortcodes.php, line 117](examples/shortcodes.php:117)
 
-*Yasr Visitor Multiset Ranking*
+_Yasr Visitor Multiset Ranking_
 
 ___
  ### Shortcode yasr_user_rate_history 
 
- Source: [examples/shortcodes.php, line 117](examples/shortcodes.php:117)
+ Source: [examples/shortcodes.php, line 124](examples/shortcodes.php:124)
 
-*Yasr User Rate History*
+_Yasr User Rate History_
 
-*When a user is logged in, print all the rating that user leaved*
+_When a user is logged in, print all the rating that user leaved_
 
 ___
  ### Shortcode yasr_display_posts 
 
- Source: [examples/shortcodes.php, line 127](examples/shortcodes.php:127)
+ Source: [examples/shortcodes.php, line 132](examples/shortcodes.php:132)
 
-*Yasr Display Posts*
+_Yasr Display Posts_
 
-*Display your posts according to YASR ratings. This shortcode works only on pages.*
+_Display your posts according to YASR ratings. This shortcode works only on pages._
 
 ___
