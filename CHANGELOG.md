@@ -1,6 +1,7 @@
 [2.0.2]
 ### Added
-- Improved parser to support variable names like $this->method 
+- Improved parser to support variable names like $this->method
+- Minor changes
 
 [2.0.0]
 ### Added
