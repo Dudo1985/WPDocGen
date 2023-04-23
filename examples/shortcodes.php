@@ -22,12 +22,9 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
-
 /**
- *
- * ## Yasr Overall Rating
- *
- * ### What is?
+ **
+ * ###What is?
  * `[yasr_overall_rating]` shortcode is read only and is used by the reviewer.
  * It comes in three sizes: "Small", "Medium", and "Large".
  * The text displayed before or after the rating can be customized in the settings.
@@ -39,21 +36,33 @@ if (!defined('ABSPATH')) {
  *    - If you're using the new Gutenberg editor, click on the "+" icon to add a block, search for YASR, and select
  *        YASR: Overall Rating. A new panel will appear to the right, where you can add your rating.
  *
- * @param $atts
- * @param $content
- * @param $shortcode_tag
- *
  * @return string|void|null
  */
 add_shortcode('yasr_overall_rating', 'shortcode_overall_rating_callback');
 
 /**
- * Yasr Visitor Votes
+ *
+ * ### What is?
+ * With `[yasr_visitor_votes]` visitors can rate a post or page.
+ * With it, you can:
+ * - Choose to allow anonymous or logged in only users.
+ * - Logged-in users can update their vote anytime.
+ * - Size can be “Small”, “Medium” or “Large”.
+ * - Customize the text shown before or after.
+ * - Hover on the chart bar icon to see the stats.
+ * ### How to use it?
+ * To insert the rating in this widget, there are two ways:
+ * - You can paste the shortcode [yasr_visitor_votes] where you need to show the widget, or you can use the auto insert
+ * feature as explained in [this tutorial](https://yetanotherstarsrating.com/tutorials/).
+ * - If you're using the new Gutenberg editor, click on the "+" icon to add a block, search for YASR and select YASR: Visitor Votes.
+ *
  */
 add_shortcode('yasr_visitor_votes', 'shortcode_visitor_votes_callback');
 
 /**
- * Yasr multiset
+ * `[yasr_multiset]` allows you to insert a rating for each aspect of your review (up to nine rows).
+ *
+ * The setid is a number that identifies the multiset.
  *
  * This shortcode return author multi set
  */
@@ -102,12 +111,10 @@ add_shortcode ('yasr_most_active_users', 'yasr_ranking_users_callback');
  */
 add_shortcode ('yasr_multi_set_ranking', 'yasr_multi_set_ranking_callback');
 
-
 /**
  * Yasr Visitor Multiset Ranking
  */
 add_shortcode ('yasr_visitor_multi_set_ranking', 'yasr_visitor_multi_set_ranking_callback');
-
 
 /**
  * Yasr User Rate History
@@ -115,8 +122,6 @@ add_shortcode ('yasr_visitor_multi_set_ranking', 'yasr_visitor_multi_set_ranking
  * When a user is logged in, print all the rating that user leaved
  */
 add_shortcode('yasr_user_rate_history', 'yasr_users_front_widget_callback');
-
-
 /**
  * Yasr Display Posts
  *

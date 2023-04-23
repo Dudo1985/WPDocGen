@@ -1,6 +1,8 @@
 [2.0.2]
 ### Added
-- In a phpDoc can now be used markdown headers
+- Added support for markdown headers
+- Improved parser to support variable names like $this->method
+- Minor changes
 
 [2.0.0]
 ### Added
