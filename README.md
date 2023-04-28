@@ -59,6 +59,13 @@ Only parse hooks or shortcodes starting with the specified prefixes.
 
 #### `vendor/bin/wp-doc-gen . hooks.md --exclude vendor node_modules --prefix prefix_1 prefix_2`
 
+## Real life Examples
+### Generated markdown files
+- https://github.com/Dudo1985/Yet-Another-Stars-Rating/blob/master/docs/yasr_hooks.md
+- https://github.com/Dudo1985/Yet-Another-Stars-Rating/blob/master/docs/yasr_shortcodes.md
+### Composer script
+- [How I use it into composer](https://github.com/Dudo1985/Yet-Another-Stars-Rating/blob/182b01703f62e3303fe214252ad34cf4c2813005/composer.json#L18) 
+
 ## Notes
 To make the parser work fine, the comment must be a valid phpDocBlock, e.g.
 
