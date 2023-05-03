@@ -66,6 +66,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
             $comment['description'] = '';
 
             while ($file->valid()) {
+                //trim the current line
                 $comment_line = trim($file->current());
 
                 // Go head if this is the begin of the comment or a row starting with *
@@ -83,7 +84,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
                 $comment_line = remove_char_begin_string($comment_line, '*');
 
                 //if the string begins with a header, leave it and go to the next line
-                if(str_starts_with($comment_line, '#')) {
+                if($this->isHeader($comment_line) === true) {
                     $comment['description'] = $comment_line;
                     $file->next();
                     continue;
@@ -94,8 +95,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
                 }
                 //the line begins with a tag
                 else {
-                    $comment_line_no_tag = $this->removeTagFromString($comment_line);
-                    $comment['args'][] = $comment_line_no_tag;
+                    $comment['args'][] = $this->removeTagFromString($comment_line);
                 }
                 //go to the next line
                 $file->next();
@@ -225,6 +225,23 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
             }
 
             return $description;
+        }
+
+        /**
+         * Find if the current line is an markdown header (string begin with #)
+         *
+         * @author Dario Curvino <@dudo>
+         * @since 2.0.3
+         *
+         * @param $line
+         *
+         * @return bool
+         */
+        function isHeader ($line):bool {
+            if(str_starts_with($line, '#')) {
+                return true;
+            }
+            return false;
         }
 
         /**
