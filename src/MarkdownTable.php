@@ -69,29 +69,15 @@ if (!class_exists('Dudo1985\WPDocGen\MarkdownTable')) {
          * @return string
          */
         public function getTable(): string {
-            $table = "";
-
             // Add headers to table
-            $table .= "|";
-            foreach ($this->headers as $header) {
-                $table .= " $header |";
-            }
-            $table .= "\n";
+            $table = '|' . implode(' | ', $this->headers) . " |\n";
 
             // Add separator row to table
-            $table .= "|";
-            foreach ($this->headers as $header) {
-                $table .= " --- |";
-            }
-            $table .= "\n";
+            $table .= '|' . str_repeat(' --- |', count($this->headers)) . "\n";
 
             // Add rows to table
             foreach ($this->rows as $row) {
-                $table .= "|";
-                foreach ($row as $cell) {
-                    $table .= " $cell |";
-                }
-                $table .= "\n";
+                $table .= '|' . implode(' | ', $row) . " |\n";
             }
 
             return $table;
