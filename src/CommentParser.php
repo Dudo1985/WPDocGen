@@ -90,14 +90,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
                 }
 
                 if ($this->isTag($comment_line) !== true) {
-                    //if the comment is still empty, add just the text
-                    //underscore is for italic, used instead of *
-                    if ($comment['description'] === '') {
-                        $comment['description'] .= '_' . $comment_line . '_';
-                    } //also add newlines otherwise
-                    else {
-                        $comment['description'] .= "\n\n_" . $comment_line . '_';
-                    }
+                    $comment['description'] .= $this->writeCommentDescription($comment['description'], $comment_line);
                 }
                 //the line begins with a tag
                 else {
@@ -108,6 +101,28 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
                 $file->next();
             }
             return $comment;
+        }
+
+        /**
+         * This function will return the new comment line.
+         * if the comment is still empty, add just the text in italic (use underscore before and after)
+         * if the comment is not empty, also add newlines
+         *
+         * @author Dario Curvino <@dudo>
+         *
+         * @since 2.0.3
+         *
+         * @param $description  | the comment description build so far
+         * @param $comment_line | the line to add into description
+         *
+         * @return string
+         */
+        function writeCommentDescription($description, $comment_line):string {
+            if ($description === '') {
+                return '_' . $comment_line . '_';
+            } //also add newlines otherwise
+
+            return  "\n\n_" . $comment_line . '_';
         }
 
         /**
