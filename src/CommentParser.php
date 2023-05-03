@@ -84,7 +84,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
                 $comment_line = remove_char_begin_string($comment_line, '*');
 
                 //if the string begins with a header, leave it and go to the next line
-                if($this->isHeader($comment_line) === true) {
+                if(is_header($comment_line) === true) {
                     $comment['description'] = $comment_line;
                     $file->next();
                     continue;
@@ -158,7 +158,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
         function findType(string $string): string {
             $first_word = find_first_word($string);
 
-            if (!$this->isTag($first_word) && !$this->isArgument($first_word)) {
+            if (!$this->isTag($first_word) && !is_argument($first_word)) {
                 return $first_word;
             }
 
@@ -228,23 +228,6 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
         }
 
         /**
-         * Find if the current line is an markdown header (string begin with #)
-         *
-         * @author Dario Curvino <@dudo>
-         * @since 2.0.3
-         *
-         * @param $line
-         *
-         * @return bool
-         */
-        function isHeader ($line):bool {
-            if(str_starts_with($line, '#')) {
-                return true;
-            }
-            return false;
-        }
-
-        /**
          * Check if the provided string begin with a tag
          *
          * @author Dario Curvino <@dudo>
@@ -260,23 +243,6 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
                 if(PhpDocumentor::isTag($possible_tag) === true) {
                     return true;
                 }
-            }
-            return false;
-        }
-
-        /**
-         * Check if the provided word is an argument
-         *
-         * @param $word
-         *
-         * @return bool
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
-         */
-        public function isArgument($word): bool {
-            if (str_starts_with($word, '$')) {
-                return true;
             }
             return false;
         }

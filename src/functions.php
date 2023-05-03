@@ -3,6 +3,40 @@
 namespace Dudo1985\WPDocGen;
 
 /**
+ * Find if the current line is an markdown header (string begin with #)
+ *
+ * @author Dario Curvino <@dudo>
+ * @since 2.0.3
+ *
+ * @param $line
+ *
+ * @return bool
+ */
+function is_header ($line):bool {
+    if(str_starts_with($line, '#')) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Check if the provided word is an argument
+ *
+ * @param $word
+ *
+ * @return bool
+ * @author Dario Curvino <@dudo>
+ * @since  1.0.0
+ *
+ */
+function is_argument($word): bool {
+    if (str_starts_with($word, '$')) {
+        return true;
+    }
+    return false;
+}
+
+/**
 * Return the first word of a string
 *
 * @param $string
