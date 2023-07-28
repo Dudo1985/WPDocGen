@@ -37,7 +37,7 @@ This will parse all the files in the current directory (.) and write a file call
 By default, WPDocGen search for hooks `apply_filters` and `do_actions`.
 However, if you use the `--shortcodes` or `-s` will search for `add_shortcode` function instead.
 
-#### `vendor/bin/wp-doc-gen . shortcodes.md`
+#### `vendor/bin/wp-doc-gen . shortcodes.md -s`
 
 ---
 
