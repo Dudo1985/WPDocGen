@@ -5,6 +5,7 @@ $int = 5;
 
 /**
  * Hook here to add new settings tab
+ * This is the second line
  *
  * @param string $foo This is the foo variable
  */

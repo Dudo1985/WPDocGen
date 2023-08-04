@@ -66,6 +66,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
             $comment['description'] = '';
 
             while ($file->valid()) {
+                //trim the current line
                 $comment_line = trim($file->current());
 
                 // Go head if this is the begin of the comment or a row starting with *
@@ -83,31 +84,45 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
                 $comment_line = remove_char_begin_string($comment_line, '*');
 
                 //if the string begins with a header, leave it and go to the next line
-                if(str_starts_with($comment_line, '#')) {
+                if(is_header($comment_line) === true) {
                     $comment['description'] = $comment_line;
                     $file->next();
                     continue;
                 }
 
-                if ($this->isTag($comment_line) !== true) {
-                    //if the comment is still empty, add just the text
-                    //underscore is for italic, used instead of *
-                    if ($comment['description'] === '') {
-                        $comment['description'] .= '_' . $comment_line . '_';
-                    } //also add newlines otherwise
-                    else {
-                        $comment['description'] .= "\n\n_" . $comment_line . '_';
-                    }
+                if (is_tag($comment_line) !== true) {
+                    $comment['description'] .= $this->writeCommentDescription($comment['description'], $comment_line);
                 }
                 //the line begins with a tag
                 else {
-                    $comment_line_no_tag = $this->removeTagFromString($comment_line);
-                    $comment['args'][] = $comment_line_no_tag;
+                    $comment['args'][] = $this->removeTagFromString($comment_line);
                 }
                 //go to the next line
                 $file->next();
             }
             return $comment;
+        }
+
+        /**
+         * This function will return the new comment line.
+         * if the comment is still empty, add just the text in italic (use underscore before and after)
+         * if the comment is not empty, also add newlines
+         *
+         * @author Dario Curvino <@dudo>
+         *
+         * @since 2.0.3
+         *
+         * @param $description  | the comment description build so far
+         * @param $comment_line | the line to add into description
+         *
+         * @return string
+         */
+        function writeCommentDescription($description, $comment_line):string {
+            if ($description === '') {
+                return '_' . $comment_line . '_';
+            } //also add newlines otherwise
+
+            return  "\n\n_" . $comment_line . '_';
         }
 
         /**
@@ -123,7 +138,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
         function removeTagFromString(string $string) {
             $first_word = find_first_word($string);
 
-            if ($this->isTag($first_word)) {
+            if (is_tag($first_word)) {
                 return trim(str_replace($first_word, '', $string));
             }
         }
@@ -143,7 +158,7 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
         function findType(string $string): string {
             $first_word = find_first_word($string);
 
-            if (!$this->isTag($first_word) && !$this->isArgument($first_word)) {
+            if (!is_tag($first_word) && !is_argument($first_word)) {
                 return $first_word;
             }
 
@@ -212,42 +227,6 @@ if (!class_exists('Dudo1985\WPDocGen\CommentParser')) {
             return $description;
         }
 
-        /**
-         * Check if the provided string begin with a tag
-         *
-         * @author Dario Curvino <@dudo>
-         *
-         * @param $string
-         *
-         * @since  1.0.0
-         *@return bool
-         */
-        public function isTag($string): bool {
-            if (str_starts_with($string, '@')) {
-                $possible_tag = find_first_word($string);
-                if(PhpDocumentor::isTag($possible_tag) === true) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /**
-         * Check if the provided word is an argument
-         *
-         * @param $word
-         *
-         * @return bool
-         * @author Dario Curvino <@dudo>
-         * @since  1.0.0
-         *
-         */
-        public function isArgument($word): bool {
-            if (str_starts_with($word, '$')) {
-                return true;
-            }
-            return false;
-        }
     }
 
 }

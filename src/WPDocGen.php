@@ -100,6 +100,9 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
 
             global $argv;
 
+            //first, check if string has params that no needs input
+            $this->paramsNoInput($argv);
+
             $folder_path     = $argv[1];
             $this->file_name = $argv[2];
 
@@ -166,6 +169,28 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         }
 
         /**
+         * Check if string was called with params that doesn't need inputs:
+         * -no params at all (will display a help message)
+         * -h or --help
+         * -V or --version
+         *
+         * @author Dario Curvino <@dudo>
+         *
+         * @since 2.0.3
+         *
+         * @param $argv
+         *
+         * @return void
+         */
+        function paramsNoInput($argv):void {
+            //print help message if -h or --help is used
+            $this->helpMessage($argv);
+
+            //print version if -V or --version is used
+            $this->printVersion($argv);
+        }
+
+        /**
          * Manage params
          *
          * @param $argv
@@ -175,12 +200,6 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          * @since 2.0.0
          */
         function checkParams($argv): void{
-            //print help message if -h or --help is used
-            $this->helpMessage($argv);
-
-            //print version if -V or --version is used
-            $this->printVersion($argv);
-
             //check if the script is called with -v or --verbose
             $this->verbose          = $this->verboseOutput($argv);
 
@@ -195,7 +214,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         }
 
         /**
-         * Return help message if -h or --help is used
+         * Return help message if no params, -h or --help are used
          *
          * @author Dario Curvino <@dudo>
          * @since  1.0.0
@@ -205,7 +224,9 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          * @return void
          */
         function helpMessage($argv): void {
-            if (!in_array('--help', $argv) && !in_array('-h', $argv)) {
+            //Check if in argv exists '--help' or '-help'
+            //also, if WPDocGen is run without params, print the help message
+            if (!in_array('--help', $argv) && !in_array('-h', $argv) && isset($argv[1])) {
                 return;
             }
 
