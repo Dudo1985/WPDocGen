@@ -213,7 +213,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
         }
 
         /**
-         * Return help message if -h or --help is used
+         * Return help message if no params, -h or --help are used
          *
          * @author Dario Curvino <@dudo>
          * @since  1.0.0
@@ -223,7 +223,9 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          * @return void
          */
         function helpMessage($argv): void {
-            if (!in_array('--help', $argv) && !in_array('-h', $argv)) {
+            //Check if in argv exists '--help' or '-help'
+            //also, if WPDocGen is run without params, print the help message
+            if (!in_array('--help', $argv) && !in_array('-h', $argv) && isset($argv[1])) {
                 return;
             }
 
