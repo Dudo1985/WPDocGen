@@ -3,7 +3,7 @@
 namespace Dudo1985\WPDocGen;
 
 /**
- * Find if the current line is an markdown header (string begin with #)
+ * Find if the current line is a markdown header (string begin with #)
  *
  * @author Dario Curvino <@dudo>
  * @since 2.0.3
