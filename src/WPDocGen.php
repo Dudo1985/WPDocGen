@@ -170,6 +170,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
 
         /**
          * Check if string was called with params that doesn't need inputs:
+         * -no params at all (will display a help message)
          * -h or --help
          * -V or --version
          *
