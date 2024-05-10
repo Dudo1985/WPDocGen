@@ -8,26 +8,26 @@ if (!class_exists('Dudo1985\WPDocGen\MarkdownTable')) {
      *
      * @package Dudo1985\MarkdownTable
      *
-     * This class is used to generate a markdown table by providing headers and rows.
+     * This class is used to generate a Markdown table by providing headers and rows.
      */
     class MarkdownTable {
 
         /**
-         * An array containing the headers of the markdown table.
+         * An array containing the headers of the Markdown table.
          *
          * @var array
          */
         private array $headers = [];
 
         /**
-         *  An array containing the rows of the markdown table.
+         *  An array containing the rows of the Markdown table.
          *
          * @var array
          */
         private array $rows = [];
 
         /**
-         * This method is used to add a header to the markdown table. It accepts a string or an array of strings as an argument.
+         * This method is used to add a header to the Markdown table. It accepts a string or an array of strings as an argument.
          *
          * @author Dario Curvino <@dudo>
          * @since  1.0.0
@@ -48,7 +48,7 @@ if (!class_exists('Dudo1985\WPDocGen\MarkdownTable')) {
         }
 
         /**
-         * This method is used to add a row to the markdown table. It accepts a string or an array of strings as an argument.
+         * This method is used to add a row to the Markdown table. It accepts a string or an array of strings as an argument.
          *
          * @author Dario Curvino <@dudo>
          * @since  1.0.0
@@ -62,7 +62,7 @@ if (!class_exists('Dudo1985\WPDocGen\MarkdownTable')) {
         }
 
         /**
-         * This method is used to generate the markdown table. It returns a string that contains the entire markdown table.
+         * This method is used to generate the Markdown table. It returns a string that contains the entire markdown table.
          *
          * @author Dario Curvino <@dudo>
          * @since  1.0.0
