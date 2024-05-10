@@ -59,6 +59,16 @@ Only parse hooks or shortcodes starting with the specified prefixes.
 
 #### `vendor/bin/wp-doc-gen . hooks.md --exclude vendor node_modules --prefix prefix_1 prefix_2`
 
+---
+
+#### `--verbose` or `-v`
+More detailed error messages.
+
+---
+
+#### `--version` or `-V`
+Print the version number
+
 ## Real life Examples
 ### Generated markdown files
 - https://github.com/Dudo1985/Yet-Another-Stars-Rating/blob/master/docs/yasr_hooks.md

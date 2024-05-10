@@ -275,7 +275,7 @@ if (!class_exists('Dudo1985\WPDocGen\WPDocGen')) {
          * @return bool
          * @author Dario Curvino <@dudo>
          *
-         * @since
+         * @since 2.0.0
          */
         function verboseOutput($argv): bool {
             if (in_array('--verbose', $argv) || in_array('-v', $argv)) {
